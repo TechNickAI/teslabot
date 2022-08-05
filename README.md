@@ -9,5 +9,12 @@ Yes, you can open the app to vent, but it's not ideal to have to remember to do 
 
 autovent solves this by allowing you to set a threshold for venting
 
-`python autovent.py --help` for usage
+`python autovent.py --help`
 
+
+## Off peak charging
+
+Tesla's native off-peak scheduling sucks. It allows you to specify a "start time", but no end time, when in practicality you need to be able to specify a peak window, such as 4-9PM for PG&E in Northern California, and have the charging stop during this window
+
+
+`python peakoff.py --help` 

@@ -20,6 +20,14 @@ class Tessie:
         else:
             raise Exception(f"No matching VIN found #{vin}")
 
+    def wake_up(self, vin):
+        sleep_status = self.request("status", vin)["status"]
+        logger.info(f"Sleep status is {sleep_status}")
+        if sleep_status != "awake":
+            logger.info("Sending wake up")
+            self.request("wake", vin)
+            logger.success("Awake")
+
     def request(self, path, vin=None):
         base_url = "https://api.tessie.com/"
 

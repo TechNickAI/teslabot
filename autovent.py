@@ -35,6 +35,7 @@ def autovent(vin, tessie_token, vent_temp):
     if vehicle_state["rd_window"] != 0:
         logger.info("Windows are down")
         if inside_temp < vent_temp:
+            tessie.wake_up(vin)
             tessie.request("command/close_windows", vin)
             logger.success("Windows closed")
         else:
@@ -42,6 +43,7 @@ def autovent(vin, tessie_token, vent_temp):
     else:
         logger.info("Windows are up")
         if inside_temp > vent_temp and outside_temp < inside_temp:
+            tessie.wake_up(vin)
             tessie.request("command/vent_windows", vin)
             logger.success("Windows vented")
         else:

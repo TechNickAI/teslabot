@@ -1,6 +1,6 @@
 from Tessie import Tessie
 import click
-from utils import c2f
+from utils import c2f, send_sms
 from loguru import logger
 
 
@@ -10,7 +10,8 @@ from loguru import logger
 @click.option(
     "--vent_temp", default=70, help="The threshold for when to roll up/down the windows, degrees in farenheit"
 )
-def autovent(vin, tessie_token, vent_temp):
+@click.option("--notify_phone", help="Send a message to this phone number when the windows are moved")
+def autovent(vin, tessie_token, vent_temp, notify_phone):
     """
     Automatically vent the windows to lower cabin temperature
 
@@ -30,7 +31,8 @@ def autovent(vin, tessie_token, vent_temp):
         logger.warning("Car is driving, exiting")
         return
 
-    logger.info(f"Inside temperature is {inside_temp}° and outside temperature is {outside_temp}°")
+    msg = f"Inside temperature is {inside_temp}° and outside temperature is {outside_temp}°."
+    logger.info(msg)
 
     if vehicle_state["rd_window"] != 0:
         logger.info("Windows are down")
@@ -38,6 +40,9 @@ def autovent(vin, tessie_token, vent_temp):
             tessie.wake_up(vin)
             tessie.request("command/close_windows", vin)
             logger.success("Windows closed")
+            if notify_phone:
+                msg += " Windows rolled up"
+                send_sms(notify_phone, msg)
         else:
             logger.info("Leaving windows as is")
     else:
@@ -46,6 +51,9 @@ def autovent(vin, tessie_token, vent_temp):
             tessie.wake_up(vin)
             tessie.request("command/vent_windows", vin)
             logger.success("Windows vented")
+            if notify_phone:
+                msg += " Windows vented"
+                send_sms(notify_phone, msg)
         else:
             logger.info("Leaving windows as is")
 

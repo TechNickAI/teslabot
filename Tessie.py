@@ -26,9 +26,9 @@ class Tessie:
         if vin:
             base_url = f"{base_url}/{vin}"
 
-        url = f"{base_url}/{path}?access_token={self.tessie_token}"
+        url = f"{base_url}/{path}"
         logger.info(f"Requesting {url}")
 
-        response = requests.get(url)
+        response = requests.get(url, headers={"Authorization": f"Bearer {self.tessie_token}"})
         response.raise_for_status()
         return response.json()

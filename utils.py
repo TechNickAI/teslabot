@@ -4,7 +4,7 @@ from loguru import logger
 
 
 def c2f(celsius):
-    return (celsius * 9 / 5) + 32
+    return round((celsius * 9 / 5) + 32)
 
 
 def send_sms(phone, message):

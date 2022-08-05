@@ -2,6 +2,7 @@ from Tessie import Tessie
 import arrow
 import click
 from loguru import logger
+from utils import send_sms
 
 
 @click.command()
@@ -27,7 +28,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
         logger.warning(f"Charging voltage is {charge_state['charger_voltage']}, likely at a supercharger, exiting")
         return
 
-    msg = f"Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
+    msg = f"Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}."
     logger.info(msg)
 
     local_time = arrow.utcnow().shift(seconds=state["vehicle_config"]["utc_offset"]).format("HH:mm")
@@ -39,18 +40,18 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
             tessie.request("command/stop_charging", vin)
             logger.success("Charging stopped")
             if notify_phone:
-                msg += " Charging stopped ✅"
-                # send_sms(notify_phone, msg)
+                msg += " Charging stopped during peak ours. ✅"
+                send_sms(notify_phone, msg)
         else:
             logger.info("Leaving charging as is")
     elif charge_state["charging_state"] == "Stopped":
-        if local_time < peak_start or local_time > peak_end:
+        if local_time > peak_end:
             logger.info("Off peak time, resuming charging")
             tessie.request("command/start_charging", vin)
             logger.success("Charging started")
             if notify_phone:
-                msg += " Charging restarted ✅"
-                # send_sms(notify_phone, msg)
+                msg += " Charging restarted after peak hours ✅"
+                send_sms(notify_phone, msg)
         else:
             logger.info("Leaving charging stopped during peak")
 

@@ -1,6 +1,6 @@
 # TeslaBot 🤖
 
-Automating functionality for Tesla, using the unnoffical API + via (Tessie)[https://tessie.com/]
+Automating functionality for Tesla, using the unnoffical API + via [Tessie](https://tessie.com/)
 
 ## Auto Venting
 It's hot out. Sun is streaming in. Interior temperatures can exceed 100°F, damaging the cars interior and making it uncomfortable when you get in. Tesla has a feature to cool down the cabin when it gets hot, but this uses up battery.

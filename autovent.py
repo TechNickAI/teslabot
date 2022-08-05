@@ -7,7 +7,9 @@ from loguru import logger
 @click.command()
 @click.option("--vin", help="Tesla VIN number to auto vent")
 @click.option("--tessie_token", help="API access token for Tessie (see tessie.com)")
-@click.option("--vent_temp", default=70, help="The threshold for when to roll up/down the windows, degrees in farenheit")
+@click.option(
+    "--vent_temp", default=70, help="The threshold for when to roll up/down the windows, degrees in farenheit"
+)
 def autovent(vin, tessie_token, vent_temp):
     """
     Automatically vent the windows to lower cabin temperature

@@ -41,7 +41,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             tessie.request("command/close_windows", vin)
             logger.success("Windows closed")
             if notify_phone:
-                msg += " Windows rolled up"
+                msg += " Windows rolled up. ✅"
                 send_sms(notify_phone, msg)
         else:
             logger.info("Leaving windows as is")
@@ -52,7 +52,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             tessie.request("command/vent_windows", vin)
             logger.success("Windows vented")
             if notify_phone:
-                msg += " Windows vented"
+                msg += " Windows vented. ✅"
                 send_sms(notify_phone, msg)
         else:
             logger.info("Leaving windows as is")

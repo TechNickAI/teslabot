@@ -1,10 +1,15 @@
-from twilio.rest import Client
 import os
+
 from loguru import logger
+from twilio.rest import Client
 
 
 def c2f(celsius):
     return round((celsius * 9 / 5) + 32)
+
+
+def f2c(farenheit):
+    return (farenheit - 32) * 5 / 9
 
 
 def send_sms(phone, message):

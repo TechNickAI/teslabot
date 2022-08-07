@@ -6,13 +6,6 @@ from Tessie import Tessie
 from utils import c2f, send_sms
 
 
-@click.command()
-@click.option("--vin", required=True, help="Tesla VIN number to auto vent")
-@click.option("--tessie_token", required=True, help="API access token for Tessie (see tessie.com)")
-@click.option(
-    "--vent_temp", default=70, help="The threshold for when to roll up/down the windows, degrees in farenheit"
-)
-@click.option("--notify_phone", help="Send a message to this phone number when the windows are moved")
 def autovent(vin, tessie_token, vent_temp, notify_phone):
     """
 
@@ -38,7 +31,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
         logger.critical(str(e))
-        return
+        return None
 
     msg = f"Inside temperature is {inside_temp}° and outside temperature is {outside_temp}°."
     logger.info(msg)
@@ -46,27 +39,42 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     if vehicle_state["rd_window"] != 0:
         logger.info("Windows are down")
         if inside_temp < vent_temp:
-            tessie.wake_up(vin)
+            tessie.wake_up()
             tessie.request("command/close_windows", vin)
             logger.success("Windows closed")
             if notify_phone:
                 msg += " Windows rolled up. ✅"
                 send_sms(notify_phone, msg)
+            return 1
         else:
             logger.info("Leaving windows as is")
+            return 0
 
     else:
         logger.info("Windows are up")
         if inside_temp > vent_temp and outside_temp < inside_temp:
-            tessie.wake_up(vin)
+            tessie.wake_up()
             tessie.request("command/vent_windows", vin)
             logger.success("Windows vented")
             if notify_phone:
                 msg += " Windows vented. ✅"
                 send_sms(notify_phone, msg)
+            return -1
         else:
             logger.info("Leaving windows as is")
+            return 0
 
 
 if __name__ == "__main__":
+
+    @click.command()
+    @click.option("--vin", required=True, help="Tesla VIN number to auto vent")
+    @click.option("--tessie_token", required=True, help="API access token for Tessie (see tessie.com)")
+    @click.option(
+        "--vent_temp", default=70, help="The threshold for when to roll up/down the windows, degrees in farenheit"
+    )
+    @click.option("--notify_phone", help="Send a message to this phone number when the windows are moved")
+    def autovent_command(vin, tessie_token, vent_temp, notify_phone):
+        autovent(vin, tessie_token, vent_temp, notify_phone)
+
     autovent()

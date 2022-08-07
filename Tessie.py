@@ -48,7 +48,7 @@ class Tessie:
         return self.request("status", self.vin)["status"]
 
     def wake_up(self):
-        sleep_status = self.get_sleep_status(self.vin)
+        sleep_status = self.get_sleep_status()
         logger.info(f"Sleep status is {sleep_status}")
         if sleep_status != "awake":
             logger.info("Sending wake up")
@@ -56,7 +56,7 @@ class Tessie:
             logger.success("Awake")
 
     def request(self, path, vin=None):
-        base_url = "https://api.tessie.com/"
+        base_url = "https://api.tessie.com"
 
         if vin:
             base_url = f"{base_url}/{vin}"

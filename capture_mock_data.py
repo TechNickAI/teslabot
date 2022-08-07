@@ -17,7 +17,7 @@ def capture(tessie_token, vin, label):
     f = open(f"tests/mock_data/{label}.json", "w")
     f.write(json.dumps(result, indent=4))
 
-    logger.success("Data written for {label}")
+    logger.success(f"Data written for {label}")
 
 
 if __name__ == "__main__":

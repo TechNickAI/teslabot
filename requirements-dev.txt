@@ -1,0 +1,4 @@
+black
+isort
+iPython
+pre-commit

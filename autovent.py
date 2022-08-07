@@ -1,4 +1,5 @@
 from Tessie import Tessie
+import arrow
 import click
 from utils import c2f, send_sms
 from loguru import logger
@@ -20,14 +21,21 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     state = tessie.get_vehicle_state()
     climate_state = state["climate_state"]
     vehicle_state = state["vehicle_state"]
-    logger.debug(f"Climate state: {climate_state}")
-    logger.debug(f"Vehicle state: {vehicle_state}")
+    logger.trace(f"Climate state: {climate_state}")
+    logger.trace(f"Vehicle state: {vehicle_state}")
 
     inside_temp = c2f(climate_state["inside_temp"])
     outside_temp = c2f(climate_state["outside_temp"])
 
-    if state["drive_state"]["speed"] is not None:
-        logger.warning("Car is driving, exiting")
+    try:
+        if tessie.localize_time(arrow.utcnow().shift(hours=-2)) > tessie.localize_time(
+            arrow.get(state["drive_state"]["timestamp"])
+        ):
+            raise ValueError("API data is stale. Car not online?")
+        tessie.check_state("drive_state", "speed", lambda v: v == 0, "Car is moving 🛞")
+        tessie.check_state("vehicle_state", "is_user_present", lambda v: v == False, "Someone is in the car 🙆")
+    except ValueError as e:
+        logger.critical(str(e))
         return
 
     msg = f"Inside temperature is {inside_temp}° and outside temperature is {outside_temp}°."

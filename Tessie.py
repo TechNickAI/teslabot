@@ -1,10 +1,11 @@
+import arrow
 import requests
 from loguru import logger
 
 
 class Tessie:
 
-    tessie_token = state = vin = None
+    tessie_token = state = state_date = vin = None
 
     def __init__(self, tessie_token, vin=None):
         self.tessie_token = tessie_token
@@ -20,10 +21,25 @@ class Tessie:
         vehicle_states = self.get_vehicles()
         for state in vehicle_states["results"]:
             if self.vin == state["vin"]:
-                self.state = state
-                return state["last_state"]
+                self.state = state["last_state"]
+                self.state_date = arrow.get(self.state["drive_state"]["timestamp"])
+                logger.success(f"Retrieved state for {self.state['display_name']} as of {self.state_date.humanize()}")
+                return self.state
         else:
             raise Exception(f"No matching VIN found #{vin}")
+
+    def check_state(self, key, sub_key, func, message):
+        state = self.get_vehicle_state()
+        data = state[key].get(sub_key)
+
+        if func(data):
+            return True
+        else:
+            logger.debug(f"{key}:{sub_key} did not pass test with value '{data}'")
+            raise ValueError(message)
+
+    def localize_time(self, time: arrow):
+        return time.shift(seconds=self.state["vehicle_config"]["utc_offset"])
 
     def get_sleep_status(self):
         return self.request("status", self.vin)["status"]
@@ -43,7 +59,7 @@ class Tessie:
             base_url = f"{base_url}/{vin}"
 
         url = f"{base_url}/{path}"
-        logger.info(f"Requesting {url}")
+        logger.trace(f"Requesting {url}")
 
         response = requests.get(url, headers={"Authorization": f"Bearer {self.tessie_token}"})
         response.raise_for_status()

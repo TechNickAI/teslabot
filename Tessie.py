@@ -4,28 +4,36 @@ from loguru import logger
 
 class Tessie:
 
-    tessie_token = None
+    tessie_token = state = vin = None
 
-    def __init__(self, tessie_token):
+    def __init__(self, tessie_token, vin=None):
         self.tessie_token = tessie_token
+        self.vin = vin
 
     def get_vehicles(self):
         return self.request("vehicles")
 
-    def get_vehicle_state(self, vin):
+    def get_vehicle_state(self):
+        if self.state:
+            return self.state
+
         vehicle_states = self.get_vehicles()
-        for result in vehicle_states["results"]:
-            if vin == result["vin"]:
-                return result["last_state"]
+        for state in vehicle_states["results"]:
+            if self.vin == state["vin"]:
+                self.state = state
+                return state["last_state"]
         else:
             raise Exception(f"No matching VIN found #{vin}")
 
-    def wake_up(self, vin):
-        sleep_status = self.request("status", vin)["status"]
+    def get_sleep_status(self):
+        return self.request("status", self.vin)["status"]
+
+    def wake_up(self):
+        sleep_status = self.get_sleep_status(self.vin)
         logger.info(f"Sleep status is {sleep_status}")
         if sleep_status != "awake":
             logger.info("Sending wake up")
-            self.request("wake", vin)
+            self.request("wake", self.vin)
             logger.success("Awake")
 
     def request(self, path, vin=None):

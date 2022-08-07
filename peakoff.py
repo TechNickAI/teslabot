@@ -15,8 +15,8 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
     """
     Automatically stop charging during peak electricity hours
     """
-    tessie = Tessie(tessie_token)
-    state = tessie.get_vehicle_state(vin)
+    tessie = Tessie(tessie_token, vin)
+    state = tessie.get_vehicle_state()
     charge_state = state["charge_state"]
     logger.debug(f"Charge state: {charge_state}")
 

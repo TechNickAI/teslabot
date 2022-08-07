@@ -14,11 +14,10 @@ from loguru import logger
 def autovent(vin, tessie_token, vent_temp, notify_phone):
     """
     Automatically vent the windows to lower cabin temperature
-
-
     """
-    tessie = Tessie(tessie_token)
-    state = tessie.get_vehicle_state(vin)
+
+    tessie = Tessie(tessie_token, vin)
+    state = tessie.get_vehicle_state()
     climate_state = state["climate_state"]
     vehicle_state = state["vehicle_state"]
     logger.debug(f"Climate state: {climate_state}")
@@ -45,6 +44,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
                 send_sms(notify_phone, msg)
         else:
             logger.info("Leaving windows as is")
+
     else:
         logger.info("Windows are up")
         if inside_temp > vent_temp and outside_temp < inside_temp:

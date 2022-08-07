@@ -1,7 +1,8 @@
-from Tessie import Tessie
 import arrow
 import click
 from loguru import logger
+
+from Tessie import Tessie
 from utils import send_sms
 
 
@@ -13,7 +14,9 @@ from utils import send_sms
 @click.option("--notify_phone", help="Send a message to this phone number when the windows are moved")
 def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
     """
+
     Automatically stop charging during peak electricity hours
+
     """
     tessie = Tessie(tessie_token, vin)
     state = tessie.get_vehicle_state()
@@ -26,13 +29,12 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
         ):
             raise ValueError("API data is stale. Car not online?")
 
-        tessie.check_state("drive_state", "timestamp", lambda v: arrow.get(x), "State is stale. Car not online?")
         tessie.check_state("drive_state", "speed", lambda v: v == 0, "Car is moving 🛞")
         tessie.check_state(
             "charge_state", "charging_state", lambda v: v in ["Charging", "Stopped"], "Cable not plugged in"
         )
-        tessie.check_state("charge_state", "charge_port_door_open", lambda v: v == False, "Charge port is closed")
-        tessie.check_state("vehicle_state", "is_user_present", lambda v: v == False, "Someone is in the car 🙆")
+        tessie.check_state("charge_state", "charge_port_door_open", lambda v: not v, "Charge port is closed")
+        tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
         tessie.check_state("charge_state", "charger_voltage", lambda v: v < 240, "Charging at a super charger 🔋")
     except ValueError as e:
         logger.critical(str(e))
@@ -41,7 +43,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
     msg = f"🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}."
     logger.info(msg)
 
-    local_time = tesse.localize_time(arrow.utcnow()).format("HH:mm")
+    local_time = tessie.localize_time(arrow.utcnow()).format("HH:mm")
     logger.info(f"Local time is {local_time}")
 
     if charge_state["charging_state"] == "Charging":

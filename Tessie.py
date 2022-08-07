@@ -4,7 +4,13 @@ from loguru import logger
 
 
 class Tessie:
+    """
 
+    Class for interacting with the Tessie API
+
+    """
+
+    # Internal state
     tessie_token = state = state_date = vin = None
 
     def __init__(self, tessie_token, vin=None):
@@ -26,7 +32,7 @@ class Tessie:
                 logger.success(f"Retrieved state for {self.state['display_name']} as of {self.state_date.humanize()}")
                 return self.state
         else:
-            raise Exception(f"No matching VIN found #{vin}")
+            raise Exception(f"No matching VIN found #{self.vin}")
 
     def check_state(self, key, sub_key, func, message):
         state = self.get_vehicle_state()
@@ -37,9 +43,6 @@ class Tessie:
         else:
             logger.debug(f"{key}:{sub_key} did not pass test with value '{data}'")
             raise ValueError(message)
-
-    def localize_time(self, time: arrow):
-        return time.shift(seconds=self.state["vehicle_config"]["utc_offset"])
 
     def get_sleep_status(self):
         return self.request("status", self.vin)["status"]
@@ -64,3 +67,6 @@ class Tessie:
         response = requests.get(url, headers={"Authorization": f"Bearer {self.tessie_token}"})
         response.raise_for_status()
         return response.json()
+
+    def localize_time(self, time: arrow):
+        return time.shift(seconds=self.state["vehicle_config"]["utc_offset"])

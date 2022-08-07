@@ -1,8 +1,9 @@
-from Tessie import Tessie
 import arrow
 import click
-from utils import c2f, send_sms
 from loguru import logger
+
+from Tessie import Tessie
+from utils import c2f, send_sms
 
 
 @click.command()
@@ -14,9 +15,10 @@ from loguru import logger
 @click.option("--notify_phone", help="Send a message to this phone number when the windows are moved")
 def autovent(vin, tessie_token, vent_temp, notify_phone):
     """
-    Automatically vent the windows to lower cabin temperature
-    """
 
+    Automatically vent the windows to lower cabin temperature
+
+    """
     tessie = Tessie(tessie_token, vin)
     state = tessie.get_vehicle_state()
     climate_state = state["climate_state"]
@@ -33,7 +35,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         ):
             raise ValueError("API data is stale. Car not online?")
         tessie.check_state("drive_state", "speed", lambda v: v == 0, "Car is moving 🛞")
-        tessie.check_state("vehicle_state", "is_user_present", lambda v: v == False, "Someone is in the car 🙆")
+        tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
         logger.critical(str(e))
         return

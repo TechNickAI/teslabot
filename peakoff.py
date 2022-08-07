@@ -29,13 +29,13 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
         ):
             raise ValueError("API data is stale. Car not online?")
 
-        tessie.check_state("drive_state", "speed", lambda v: v == 0, "Car is moving 🛞")
+        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is moving 🛞")
         tessie.check_state(
             "charge_state", "charging_state", lambda v: v in ["Charging", "Stopped"], "Cable not plugged in"
         )
-        tessie.check_state("charge_state", "charge_port_door_open", lambda v: not v, "Charge port is closed")
-        tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
+        tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge port is closed")
         tessie.check_state("charge_state", "charger_voltage", lambda v: v < 240, "Charging at a super charger 🔋")
+        tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
         logger.critical(str(e))
         return

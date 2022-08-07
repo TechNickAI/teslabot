@@ -34,7 +34,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             arrow.get(state["drive_state"]["timestamp"])
         ):
             raise ValueError("API data is stale. Car not online?")
-        tessie.check_state("drive_state", "speed", lambda v: v == 0, "Car is moving 🛞")
+        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is moving 🛞")
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
         logger.critical(str(e))

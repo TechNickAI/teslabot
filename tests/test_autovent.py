@@ -1,11 +1,14 @@
 import json
 
+import arrow
+
 from autovent import autovent
 from utils import f2c
 
 
 def test_autovent(requests_mock):
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
+    mock_data["results"][0]["last_state"]["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
     requests_mock.get("https://api.tessie.com/vehicles", text=json.dumps(mock_data))
     assert autovent("5YJ3E1EA8KF326283", "dummy_tessie_token", 90, None) == 0, "Initial load should do nothing"
 

@@ -77,4 +77,4 @@ if __name__ == "__main__":
     def autovent_command(vin, tessie_token, vent_temp, notify_phone):
         autovent(vin, tessie_token, vent_temp, notify_phone)
 
-    autovent()
+    autovent_command()

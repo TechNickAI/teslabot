@@ -79,4 +79,4 @@ if __name__ == "__main__":
     def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone):
         peakoff(vin, tessie_token, peak_start, peak_end, notify_phone)
 
-    peakoff()
+    peakoff_command()

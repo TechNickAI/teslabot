@@ -75,7 +75,7 @@ if __name__ == "__main__":
     @click.option("--tessie_token", required=True, help="API access token for Tessie (see tessie.com)")
     @click.option("--peak-start", required=True, help="When peak pricing starts, in military time. Ex: 16:00")
     @click.option("--peak-end", required=True, help="When peak pricing ends, in military time. Ex: 21:00")
-    @click.option("--notify_phone", help="Send a message to this phone number when the windows are moved")
+    @click.option("--notify_phone", help="Send a message to this phone number when the charging is stopped/started")
     def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone):
         peakoff(vin, tessie_token, peak_start, peak_end, notify_phone)
 

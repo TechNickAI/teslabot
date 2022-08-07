@@ -47,7 +47,7 @@ Options:
                        [required]
   --peak-end TEXT      When peak pricing ends, in military time. Ex: 21:00
                        [required]
-  --notify_phone TEXT  Send a message to this phone number when the windows
-                       are moved
+  --notify_phone TEXT  Send a message to this phone number when the charging
+                       is stopped/started
   --help               Show this message and exit.
 ```

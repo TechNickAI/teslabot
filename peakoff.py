@@ -87,7 +87,7 @@ if __name__ == "__main__":
         help="Don't pause charging if the battery is below this threshold",
     )
     @click.option("--notify_phone", help="Send a message to this phone number when the charging is stopped/started")
-    def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_treshold):
-        peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_treshold)
+    def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold):
+        peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold)
 
     peakoff_command()

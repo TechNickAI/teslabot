@@ -5,8 +5,10 @@ from loguru import logger
 from Tessie import Tessie
 from utils import send_sms
 
+DEFAULT_LOW_BATTERY_THRESHOLD = 35
 
-def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
+
+def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_treshold=DEFAULT_LOW_BATTERY_THRESHOLD):
     """
 
     Automatically stop charging during peak electricity hours
@@ -41,7 +43,10 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone):
     logger.info(f"Local time is {local_time}")
 
     if charge_state["charging_state"] == "Charging":
-        if local_time > peak_start and local_time < peak_end:
+        if charge_state["battery_level"] < low_battery_treshold:
+            logger.warning(f"Charge level is below {low_battery_treshold}%, allowing charging to continue")
+            return 0
+        elif local_time > peak_start and local_time < peak_end:
             logger.warning("Charging during peak time")
             tessie.request("command/stop_charging", vin)
             logger.success("Charging stopped 🛑")
@@ -75,8 +80,14 @@ if __name__ == "__main__":
     @click.option("--tessie_token", required=True, help="API access token for Tessie (see tessie.com)")
     @click.option("--peak-start", required=True, help="When peak pricing starts, in military time. Ex: 16:00")
     @click.option("--peak-end", required=True, help="When peak pricing ends, in military time. Ex: 21:00")
+    @click.option(
+        "--low_battery_threshold",
+        default=DEFAULT_LOW_BATTERY_THRESHOLD,
+        show_default=True,
+        help="Don't pause charging if the battery is below this threshold",
+    )
     @click.option("--notify_phone", help="Send a message to this phone number when the charging is stopped/started")
-    def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone):
-        peakoff(vin, tessie_token, peak_start, peak_end, notify_phone)
+    def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_treshold):
+        peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_treshold)
 
     peakoff_command()

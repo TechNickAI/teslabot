@@ -37,17 +37,18 @@ Tesla's native off-peak scheduling sucks. It allows you to specify a "start time
 ```
 Usage: peakoff.py [OPTIONS]
 
-  Automatically stop charging during peak electricity hours
-
 Options:
-  --vin TEXT           Tesla VIN number to auto vent  [required]
-  --tessie_token TEXT  API access token for Tessie (see tessie.com)
-                       [required]
-  --peak-start TEXT    When peak pricing starts, in military time. Ex: 16:00
-                       [required]
-  --peak-end TEXT      When peak pricing ends, in military time. Ex: 21:00
-                       [required]
-  --notify_phone TEXT  Send a message to this phone number when the charging
-                       is stopped/started
-  --help               Show this message and exit.
+  --vin TEXT                      Tesla VIN number to auto vent  [required]
+  --tessie_token TEXT             API access token for Tessie (see tessie.com)
+                                  [required]
+  --peak-start TEXT               When peak pricing starts, in military time.
+                                  Ex: 16:00  [required]
+  --peak-end TEXT                 When peak pricing ends, in military time.
+                                  Ex: 21:00  [required]
+  --low_battery_threshold INTEGER
+                                  Don't pause charging if the battery is below
+                                  this threshold  [default: 35]
+  --notify_phone TEXT             Send a message to this phone number when the
+                                  charging is stopped/started
+  --help                          Show this message and exit.
 ```

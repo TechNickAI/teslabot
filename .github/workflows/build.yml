@@ -29,12 +29,12 @@ jobs:
         run: |
           pytest
 
-      - name: Deploy
+      - name: Deploy via ssh
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
             uptime
             ~/update_teslabot.bash
           host: ${{ secrets.DEPLOY_HOST }}
-          user: ${{ secrets.DEPLOY_USERNAME }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
           privateKey: ${{ secrets.DEPLOY_SSH_KEY }}

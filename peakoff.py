@@ -5,7 +5,7 @@ from loguru import logger
 from Tessie import Tessie
 from utils import send_sms
 
-DEFAULT_LOW_BATTERY_THRESHOLD = 35
+DEFAULT_LOW_BATTERY_THRESHOLD = 42
 
 
 def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_treshold=DEFAULT_LOW_BATTERY_THRESHOLD):

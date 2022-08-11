@@ -1,6 +1,5 @@
+-r requirements-test.txt
 black
 isort
 iPython
 pre-commit
-pytest
-requests_mock

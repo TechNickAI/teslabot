@@ -27,13 +27,13 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             arrow.get(state["drive_state"]["timestamp"])
         ):
             raise ValueError("API data is stale. Car not online?")
-        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is moving 🛞")
+        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
         logger.critical(str(e))
         return None
 
-    msg = f"Inside temperature is {inside_temp}° and outside temperature is {outside_temp}°."
+    msg = f"Cabin temperature is {inside_temp}° and outside temperature is {outside_temp}°"
     logger.info(msg)
 
     if vehicle_state["rd_window"] != 0:
@@ -43,7 +43,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             tessie.request("command/close_windows", vin)
             logger.success("Windows closed")
             if notify_phone:
-                msg += " Windows rolled up. ✅"
+                msg += ", windows rolled up 🔒"
                 send_sms(notify_phone, msg)
             return 1
         else:
@@ -57,7 +57,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             tessie.request("command/vent_windows", vin)
             logger.success("Windows vented")
             if notify_phone:
-                msg += " Windows vented. ✅"
+                msg += " 🥵, windows vented to cool off 🌬"
                 send_sms(notify_phone, msg)
             return -1
         else:

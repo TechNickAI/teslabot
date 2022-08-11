@@ -25,18 +25,17 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
         ):
             raise ValueError("API data is stale. Car not online?")
 
-        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is moving 🛞")
+        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state(
-            "charge_state", "charging_state", lambda v: v in ["Charging", "Stopped"], "Cable not plugged in"
+            "charge_state", "charging_state", lambda v: v in ["Charging", "Stopped"], "Charge cable not plugged in"
         )
         tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge port is closed")
         tessie.check_state("charge_state", "charger_voltage", lambda v: v < 240, "Charging at a super charger 🔋")
-        tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
         logger.critical(str(e))
         return None
 
-    msg = f"🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}."
+    msg = f"🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
     logger.info(msg)
 
     local_time = tessie.localize_time(arrow.utcnow()).format("HH:mm")
@@ -47,11 +46,10 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             logger.warning(f"Charge level is below {low_battery_treshold}%, allowing charging to continue")
             return 0
         elif local_time > peak_start and local_time < peak_end:
-            logger.warning("Charging during peak time")
+            logger.warning("Charging during peak time! ")
             tessie.request("command/stop_charging", vin)
-            logger.success("Charging stopped 🛑")
             if notify_phone:
-                msg += " Charging stopped during peak ours. ✅"
+                msg += f", charging paused during peak hours, will resume at {peak_end} ♻️"
                 send_sms(notify_phone, msg)
             return -1
         else:
@@ -62,9 +60,8 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
         if local_time > peak_end:
             logger.info("Off peak time, resuming charging")
             tessie.request("command/start_charging", vin)
-            logger.success("Charging started 🔌")
             if notify_phone:
-                msg += "🔋Charging restarted after peak hours ✅"
+                msg += ", 🔋charging resumed after peak hours 🔌"
                 send_sms(notify_phone, msg)
             return 1
 

@@ -1,4 +1,4 @@
-name: Tesla 🤖
+name: Tesla 🤖 build and deploy
 
 on: [push]
 

@@ -30,10 +30,10 @@ jobs:
           pytest
 
       - name: Deploy
-        uses: nerd4ever/ssh-action@master
+        uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
             ~/update_teslabot.bash
           host: ${{ secrets.DEPLOY_HOST }}
           user: ${{ secrets.DEPLOY_USERNAME }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          privateKey: ${{ secrets.DEPLOY_SSH_KEY }}

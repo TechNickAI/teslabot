@@ -17,9 +17,6 @@ class Tessie:
         self.tessie_token = tessie_token
         self.vin = vin
 
-    def get_vehicles(self):
-        return self.request("vehicles")
-
     def get_vehicle_state(self):
         if self.state:
             return self.state
@@ -32,6 +29,7 @@ class Tessie:
         return state
 
     def check_state(self, key, sub_key, func, message):
+        # Convenience method to check the value of a state against an expected value
         state = self.get_vehicle_state()
         data = state[key].get(sub_key)
 
@@ -52,6 +50,10 @@ class Tessie:
             self.request("wake", self.vin)
             logger.success("Awake")
 
+    def localize_time(self, time: arrow):
+        # For the supplied time, shift it by the UTC offset, for the current timezone of the vehicle
+        return time.shift(seconds=self.state["vehicle_config"]["utc_offset"])
+
     def request(self, path, vin=None):
         base_url = "https://api.tessie.com"
 
@@ -64,6 +66,3 @@ class Tessie:
         response = requests.get(url, headers={"Authorization": f"Bearer {self.tessie_token}"})
         response.raise_for_status()
         return response.json()
-
-    def localize_time(self, time: arrow):
-        return time.shift(seconds=self.state["vehicle_config"]["utc_offset"])

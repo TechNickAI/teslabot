@@ -2,7 +2,7 @@
 
 Automating functionality for Tesla, using the same API the app uses via [Tessie](https://tessie.com/)
 
-[![Build](https://github.com/gorillamania/teslabot/actions/workflows/build.yml/badge.svg)](https://github.com/gorillamania/teslabot/actions?query=build)
+[![Github Build](https://github.com/gorillamania/teslabot/actions/workflows/build.yml/badge.svg)](https://github.com/gorillamania/teslabot/actions?query=build)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 

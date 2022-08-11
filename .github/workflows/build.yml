@@ -28,3 +28,12 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{secrets.DEPLOY_HOST}}}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script_stop: true
+          script: ~/update_teslabot.bash

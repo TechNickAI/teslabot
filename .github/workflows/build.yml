@@ -30,10 +30,10 @@ jobs:
           pytest
 
       - name: Deploy
-        uses: appleboy/ssh-action@v0.1.5
+        uses: nerd4ever/ssh-action@master
         with:
-          host: ${{secrets.DEPLOY_HOST}}}
-          username: ${{ secrets.DEPLOY_USERNAME }}
+          command: |
+            ~/update_teslabot.bash
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: ${{ secrets.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script_stop: true
-          script: ~/update_teslabot.bash

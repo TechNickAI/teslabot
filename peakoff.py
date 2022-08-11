@@ -27,7 +27,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
 
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge cable is not plugged in")
-        tessie.check_state("charge_state", "charging_state", lambda v: v in ["Complete"], "Charging is complete")
+        tessie.check_state("charge_state", "charging_state", lambda v: v != "Complete", "Charging is complete")
         tessie.check_state("charge_state", "charger_voltage", lambda v: v < 240, "Charging at a super charger 🔋")
     except ValueError as e:
         logger.critical(str(e))

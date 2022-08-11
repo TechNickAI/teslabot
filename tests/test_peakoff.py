@@ -43,6 +43,7 @@ def test_peakoff_toggling(requests_mock):
 def test_low_battery(requests_mock):
     mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
+    mock_data["charge_state"]["battery_level"] = 10
 
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     assert (

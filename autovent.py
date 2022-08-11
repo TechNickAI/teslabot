@@ -22,11 +22,16 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     inside_temp = c2f(climate_state["inside_temp"])
     outside_temp = c2f(climate_state["outside_temp"])
 
+    if tessie.localize_time(arrow.utcnow().shift(hours=-2)) > tessie.localize_time(
+        arrow.get(state["drive_state"]["timestamp"])
+    ):
+        logger.critical(
+            "Tessie API data is stale, which means the car is either asleep or out of internet range. Trying a wake up."
+        )
+        tessie.wake_up()
+        return None
+
     try:
-        if tessie.localize_time(arrow.utcnow().shift(hours=-2)) > tessie.localize_time(
-            arrow.get(state["drive_state"]["timestamp"])
-        ):
-            raise ValueError("API data is stale. Car not online?")
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:

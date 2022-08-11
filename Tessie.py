@@ -11,7 +11,7 @@ class Tessie:
     """
 
     # Internal state
-    tessie_token = state = state_date = vin = None
+    tessie_token = state = vin = None
 
     def __init__(self, tessie_token, vin=None):
         self.tessie_token = tessie_token
@@ -24,15 +24,12 @@ class Tessie:
         if self.state:
             return self.state
 
-        vehicle_states = self.get_vehicles()
-        for state in vehicle_states["results"]:
-            if self.vin == state["vin"]:
-                self.state = state["last_state"]
-                self.state_date = arrow.get(self.state["drive_state"]["timestamp"])
-                logger.success(f"Retrieved state for {self.state['display_name']} as of {self.state_date.humanize()}")
-                return self.state
-        else:
-            raise Exception(f"No matching VIN found #{self.vin}")
+        state = self.request("state", self.vin)
+        state_date = arrow.get(state["drive_state"]["timestamp"])
+        logger.success(f"Retrieved state for {state['display_name']} as of {state_date.humanize()}")
+
+        self.state = state
+        return state
 
     def check_state(self, key, sub_key, func, message):
         state = self.get_vehicle_state()

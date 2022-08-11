@@ -33,6 +33,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
+            uptime
             ~/update_teslabot.bash
           host: ${{ secrets.DEPLOY_HOST }}
           user: ${{ secrets.DEPLOY_USERNAME }}

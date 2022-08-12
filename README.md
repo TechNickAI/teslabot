@@ -6,7 +6,12 @@ Automating functionality for Tesla, using the same API the app uses via [Tessie]
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-Various automations can be performed based on time of day, location of the vehicle, and conditions of the car. Optional SMS notifications available via [Twilio](https://www.twilio.com/).
+Various automations can be performed based on time of day, location of the vehicle, and conditions of the car. Have an idea for a feature? [Submit a github issue](https://github.com/gorillamania/teslabot/issues/new) to suggest a feature.
+
+Optional SMS notifications available via [Twilio](https://www.twilio.com/).
+
+<img width="524" alt="Screen Shot 2022-08-12 at 1 40 17 PM" src="https://user-images.githubusercontent.com/142708/184441792-82dbea01-bb19-418f-ae89-b6d843aa3489.png">
+
 
 ## Features
 
@@ -56,6 +61,7 @@ Options:
                                   charging is stopped/started
   --help                          Show this message and exit.
 ```
+
 
 
 ## Development Environment

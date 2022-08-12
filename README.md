@@ -6,8 +6,11 @@ Automating functionality for Tesla, using the same API the app uses via [Tessie]
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
+Various automations can be performed based on time of day, location of the vehicle, and conditions of the car. Optional SMS notifications available via [Twilio](https://www.twilio.com/).
 
-## Auto Venting
+## Features
+
+### Auto Venting
 It's hot out. Sun is streaming in. Interior temperatures can exceed 100°F, damaging the cars interior and making it uncomfortable when you get in. Tesla has a feature to cool down the cabin when it gets hot, but this uses up battery.
 
 Yes, you can open the app to vent, but it's not ideal to have to remember to do it every time you park. It's also nice to only vent the windows when it is hot, not all the time.
@@ -30,7 +33,7 @@ Options:
   --help               Show this message and exit.
 ```
 
-## Off peak charging
+### Off peak charging
 
 Tesla's native off-peak scheduling sucks. It allows you to specify a "start time", but no end time, when in practicality you need to be able to specify a peak window, such as 4-9PM for PG&E in Northern California, and have the charging stop during this window.
 
@@ -53,3 +56,13 @@ Options:
                                   charging is stopped/started
   --help                          Show this message and exit.
 ```
+
+
+## Development Environment
+
+* Python 3.9+ w/ virtualenv
+* [Github actions](https://github.com/features/actions) for CI/CD
+* [Black](https://black.readthedocs.io/en/stable/) for formatting
+* [flake8](https://flake8.pycqa.org/en/latest/) for linting
+* [pytest](https://docs.pytest.org/en/7.1.x/) for unit testing
+* [pre-commit](https://pre-commit.com/) to automate checks on commit

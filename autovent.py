@@ -74,15 +74,15 @@ if __name__ == "__main__":
 
     @click.command()
     @click.option("--vin", required=True, help="Tesla VIN number to auto vent", type=str)
-    @click.option("--tessie_token", required=True, help="API access token for Tessie (see tessie.com)", type=str)
+    @click.option("--tessie-token", required=True, help="API access token for Tessie (see tessie.com)", type=str)
     @click.option(
-        "--vent_temp",
+        "--vent-temp",
         default=70,
         type=click.IntRange(0, 135),
         show_default=True,
         help="The threshold for when to roll up/down the windows, degrees in fahrenheit",
     )
-    @click.option("--notify_phone", help="Send a message to this phone number when the windows are moved", type=str)
+    @click.option("--notify-phone", help="Send a message to this phone number when the windows are moved", type=str)
     def autovent_command(vin, tessie_token, vent_temp, notify_phone):
         autovent(vin, tessie_token, vent_temp, notify_phone)
 

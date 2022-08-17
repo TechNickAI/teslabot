@@ -7,6 +7,7 @@ from utils import f2c
 
 
 def test_autovent(requests_mock):
+
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))

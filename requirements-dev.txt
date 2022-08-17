@@ -8,4 +8,5 @@ flake8-eradicate
 flake8-isort
 isort
 iPython
+pep8-naming
 pre-commit

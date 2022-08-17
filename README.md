@@ -32,7 +32,7 @@ Options:
   --tessie_token TEXT  API access token for Tessie (see tessie.com)
                        [required]
   --vent_temp INTEGER  The threshold for when to roll up/down the windows,
-                       degrees in farenheit
+                       degrees in fahrenheit
   --notify_phone TEXT  Send a message to this phone number when the windows
                        are moved
   --help               Show this message and exit.

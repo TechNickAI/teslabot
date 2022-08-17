@@ -45,7 +45,8 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             return 0
         elif local_time > peak_start and local_time < peak_end:
             logger.warning("Charging during peak time! ")
-            tessie.request("command/stop_charging", vin)
+            response = tessie.request("command/stop_charging", vin)
+            logger.info(f"Response {response}")
             if notify_phone:
                 msg += f", charging paused during peak hours, will resume at {peak_end} ♻️"
                 send_sms(notify_phone, msg)
@@ -71,7 +72,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
                 return None
 
             else:
-                logger.error("Unrecognized response from Tessie API")
+                logger.error(f"Unrecognized response from Tessie API: {response}")
                 return None
 
         else:

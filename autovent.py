@@ -12,6 +12,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     Automatically vent the windows to lower cabin temperature
 
     """
+
     tessie = Tessie(tessie_token, vin)
     state = tessie.get_vehicle_state()
     climate_state = state["climate_state"]
@@ -45,8 +46,8 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         logger.info("Windows are down")
         if inside_temp < vent_temp:
             tessie.wake_up()
-            tessie.request("command/close_windows", vin)
-            logger.success("Windows closed")
+            response = tessie.request("command/close_windows", vin)
+            logger.success(f"Windows closed: {response}")
             if notify_phone:
                 msg += ", windows rolled up 🔒"
                 send_sms(notify_phone, msg)
@@ -59,8 +60,8 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         logger.info("Windows are up")
         if inside_temp > vent_temp and outside_temp < inside_temp:
             tessie.wake_up()
-            tessie.request("command/vent_windows", vin)
-            logger.success("Windows vented")
+            response = tessie.request("command/vent_windows", vin)
+            logger.success(f"Windows vented: {response}")
             if notify_phone:
                 msg += " 🥵, windows vented to cool off 🌬"
                 send_sms(notify_phone, msg)

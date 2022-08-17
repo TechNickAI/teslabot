@@ -1,3 +1,4 @@
+---
 name: Tesla 🤖 build and deploy
 
 on: [push]

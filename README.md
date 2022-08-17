@@ -8,7 +8,7 @@ Automating functionality for Tesla, using the same API the app uses via [Tessie]
 [![GitHub Super-Linter](https://github.com/gorillamania/teslabot/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 
-Various automations can be performed based on time of day, location of the vehicle, and conditions of the car. Have an idea for a feature? [Submit a github issue](https://github.com/gorillamania/teslabot/issues/new) to suggest a feature.
+Various automations can be performed based on time of day, location of the vehicle, and conditions of the car. Have an idea for a feature? [Submit a GitHub issue](https://github.com/gorillamania/teslabot/issues/new) to suggest a feature.
 
 Optional SMS notifications available via [Twilio](https://www.twilio.com/).
 
@@ -24,7 +24,7 @@ Yes, you can open the app to vent, but it's not ideal to have to remember to do 
 
 autovent solves this by allowing you to set a threshold for venting
 
-```
+```bash
 Usage: autovent.py [OPTIONS]
 
   Automatically vent the windows to lower cabin temperature
@@ -45,7 +45,7 @@ Options:
 Tesla's native off-peak scheduling sucks. It allows you to specify a "start time", but no end time, when in practicality you need to be able to specify a peak window, such as 4-9PM for PG&E in Northern California, and have the charging stop during this window.
 
 
-```
+```bash
 Usage: peakoff.py [OPTIONS]
 
 Options:
@@ -69,7 +69,7 @@ Options:
 ## Development Environment
 
 * Python 3.9+ w/ virtualenv
-* [Github actions](https://github.com/features/actions) for CI/CD
+* [GitHub actions](https://github.com/features/actions) for CI/CD
 * [Black](https://black.readthedocs.io/en/stable/) for formatting
 * [flake8](https://flake8.pycqa.org/en/latest/) for linting
 * [pytest](https://docs.pytest.org/en/7.1.x/) for unit testing

@@ -5,6 +5,8 @@ Automating functionality for Tesla, using the same API the app uses via [Tessie]
 [![Github Build](https://github.com/gorillamania/teslabot/actions/workflows/build.yml/badge.svg)](https://github.com/gorillamania/teslabot/actions?query=build)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![GitHub Super-Linter](https://github.com/gorillamania/teslabot/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 
 Various automations can be performed based on time of day, location of the vehicle, and conditions of the car. Have an idea for a feature? [Submit a github issue](https://github.com/gorillamania/teslabot/issues/new) to suggest a feature.
 

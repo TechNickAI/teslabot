@@ -34,5 +34,9 @@ jobs:
           PYTHON_BLACK_CONFIG_FILE: pyproject.toml
           PYTHON_ISORT_CONFIG_FILE: pyproject.toml
           PYTHON_FLAKE8_CONFIG_FILE: setup.cfg
+          # Typing - meh
           VALIDATE_PYTHON_MYPY: false
+          # We do enough with flake8
           VALIDATE_PYTHON_PYLINT: false
+          # we do flake8 with a separate action so we can configure addons
+          VALIDATE_PYTHON_FLAKE8: false

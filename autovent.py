@@ -23,6 +23,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     inside_temp = c2f(climate_state["inside_temp"])
     outside_temp = c2f(climate_state["outside_temp"])
 
+    ### Conditional checks
     if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > tessie.localize_time(
         arrow.get(state["drive_state"]["timestamp"])
     ):
@@ -36,9 +37,10 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
-        logger.critical(str(e))
+        logger.info(f"Halting: {e}")
         return None
 
+    ### Check the temperature and windows
     msg = f"Cabin temperature is {inside_temp}° and outside temperature is {outside_temp}°"
     logger.info(msg)
 

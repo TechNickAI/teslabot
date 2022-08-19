@@ -23,7 +23,7 @@ class Tessie:
 
         state = self.request("state", self.vin)
         state_date = arrow.get(state["drive_state"]["timestamp"])
-        logger.success(f"Retrieved state for {state['display_name']} as of {state_date.humanize()}")
+        logger.success(f"Retrieved state for {state['display_name']} (#{state['vin']}) as of {state_date.humanize()}")
 
         self.state = state
         return state

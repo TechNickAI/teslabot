@@ -16,6 +16,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     """
     tessie = Tessie(tessie_token, vin)
     state = tessie.get_vehicle_state()
+    car_name = state["display_name"]
     charge_state = state["charge_state"]
     logger.trace(f"Charge state: {charge_state}")
 
@@ -35,7 +36,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
         return None
 
     ### Check the batteries and charging status
-    msg = f"🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
+    msg = f"{car_name}🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
     logger.info(msg)
 
     local_time = tessie.localize_time(arrow.utcnow()).format("HH:mm")

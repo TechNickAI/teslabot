@@ -15,6 +15,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
 
     tessie = Tessie(tessie_token, vin)
     state = tessie.get_vehicle_state()
+    car_name = state["display_name"]
     climate_state = state["climate_state"]
     vehicle_state = state["vehicle_state"]
     logger.trace(f"Climate state: {climate_state}")
@@ -41,7 +42,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         return None
 
     ### Check the temperature and windows
-    msg = f"Cabin temperature is {inside_temp}° and outside temperature is {outside_temp}°"
+    msg = f"{car_name} cabin temperature is {inside_temp}° and outside temperature is {outside_temp}°"
     logger.info(msg)
 
     if vehicle_state["rd_window"] != 0:

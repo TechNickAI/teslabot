@@ -23,7 +23,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     inside_temp = c2f(climate_state["inside_temp"])
     outside_temp = c2f(climate_state["outside_temp"])
 
-    if tessie.localize_time(arrow.utcnow().shift(hours=-2)) > tessie.localize_time(
+    if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > tessie.localize_time(
         arrow.get(state["drive_state"]["timestamp"])
     ):
         logger.critical(

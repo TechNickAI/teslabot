@@ -20,7 +20,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     logger.trace(f"Charge state: {charge_state}")
 
     try:
-        if tessie.localize_time(arrow.utcnow().shift(hours=-2)) > tessie.localize_time(
+        if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > tessie.localize_time(
             arrow.get(state["drive_state"]["timestamp"])
         ):
             raise ValueError("API data is stale. Car not online?")

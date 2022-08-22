@@ -9,7 +9,7 @@ def c2f(celsius):
 
 
 def f2c(fahrenheit):
-    return (fahrenheit - 32) * 5 / 9
+    return round((fahrenheit - 32) * 5 / 9)
 
 
 def send_sms(phone, message):

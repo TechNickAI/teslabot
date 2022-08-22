@@ -89,5 +89,5 @@ def autovent_command(vin, tessie_token, vent_temp, notify_phone):
     autovent(vin, tessie_token, vent_temp, notify_phone)
 
 
-if __name__ == "__main__":  # noqa
+if __name__ == "__main__":  # pragma: no cover
     autovent_command()

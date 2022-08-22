@@ -74,7 +74,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
                 logger.error("Charging restart already requested")
                 return None
 
-            else:
+            else:  # pragma: no cover
                 logger.error(f"Unrecognized response from Tessie API: {response}")
                 return None
 
@@ -102,5 +102,5 @@ def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_b
     peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold)
 
 
-if __name__ == "__main__":  # noqa
+if __name__ == "__main__":  # pragma: no cover
     peakoff_command()

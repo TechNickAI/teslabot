@@ -83,24 +83,24 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             return 0
 
 
-if __name__ == "__main__":
+@click.command()
+@click.option("--vin", required=True, help="Tesla VIN number to auto vent", type=str)
+@click.option("--tessie-token", required=True, help="API access token for Tessie (see tessie.com)", type=str)
+@click.option("--peak-start", required=True, help="When peak pricing starts, in military time. Ex: 16:00", type=str)
+@click.option("--peak-end", required=True, help="When peak pricing ends, in military time. Ex: 21:00", type=str)
+@click.option(
+    "--low-battery-threshold",
+    default=DEFAULT_LOW_BATTERY_THRESHOLD,
+    show_default=True,
+    type=click.IntRange(0, 100),
+    help="Don't pause charging if the battery is below this threshold",
+)
+@click.option(
+    "--notify-phone", help="Send a message to this phone number when the charging is stopped/started", type=str
+)
+def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold):
+    peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold)
 
-    @click.command()
-    @click.option("--vin", required=True, help="Tesla VIN number to auto vent", type=str)
-    @click.option("--tessie-token", required=True, help="API access token for Tessie (see tessie.com)", type=str)
-    @click.option("--peak-start", required=True, help="When peak pricing starts, in military time. Ex: 16:00", type=str)
-    @click.option("--peak-end", required=True, help="When peak pricing ends, in military time. Ex: 21:00", type=str)
-    @click.option(
-        "--low-battery-threshold",
-        default=DEFAULT_LOW_BATTERY_THRESHOLD,
-        show_default=True,
-        type=click.IntRange(0, 100),
-        help="Don't pause charging if the battery is below this threshold",
-    )
-    @click.option(
-        "--notify-phone", help="Send a message to this phone number when the charging is stopped/started", type=str
-    )
-    def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold):
-        peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold)
 
+if __name__ == "__main__":  # noqa
     peakoff_command()

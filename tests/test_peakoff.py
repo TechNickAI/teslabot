@@ -38,6 +38,8 @@ def test_peakoff_toggling(requests_mock):
 
     mock_data["charge_state"]["charging_state"] = "Stopped"
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
+    assert peakoff("dummy_vin", "dummy_tessie_token", "00:00", "23:59", None) == 0, "Should leave as is during peak"
+
     requests_mock.get("https://api.tessie.com/dummy_vin/command/start_charging", text='{"result": true }')
     assert peakoff("dummy_vin", "dummy_tessie_token", "00:00", "00:00", None) == 1, "Should resume charging off peak"
 

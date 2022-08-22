@@ -1,5 +1,4 @@
-import arrow
-import requests
+import arrow, requests
 from loguru import logger
 
 

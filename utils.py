@@ -18,6 +18,7 @@ def send_sms(phone, message):
     assert account_sid, "TWILIO_ACCOUNT_SID env variable must be set"
     assert auth_token, "TWILIO_AUTH_TOKEN env variable must be set"
     assert twilio_phone, "TWILIO_PHONE env variable must be set"
+
     client = Client(account_sid, auth_token)
     logger.info(f"Sending message to {phone}: {message}")
     message = client.messages.create(body=f"Tesla 🤖: {message}", from_=f"+{twilio_phone}", to=f"+{phone}")

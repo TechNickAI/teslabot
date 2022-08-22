@@ -1,5 +1,5 @@
 ---
-name: Tesla 🤖 build and deploy
+name: Test and deploy
 
 on: [push]
 
@@ -24,7 +24,11 @@ jobs:
 
       - name: Test with pytest
         run: |
-          pytest
+          pytest --cov=./ --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        verbose: true
 
       - name: Deploy via ssh
         uses: appleboy/ssh-action@v0.1.5

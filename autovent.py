@@ -1,7 +1,5 @@
-import arrow
-import click
+import arrow, click
 from loguru import logger
-
 from Tessie import Tessie
 from utils import c2f, send_sms
 
@@ -28,10 +26,13 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > tessie.localize_time(
         arrow.get(state["drive_state"]["timestamp"])
     ):
-        logger.critical(
-            "Tessie API data is stale, which means the car is either asleep or out of internet range. Trying a wake up."
-        )
-        tessie.wake_up()
+        logger.info("API data is stale, which means the car is either asleep or out of internet range.")
+        if int(tessie.localize_time(arrow.utcnow())) <= 6:
+            logger.info("Since it's before sunrise, just let the car sleep")
+        else:
+            logger.info("Waking the car up for the next run")
+            tessie.wake_up()
+
         return None
 
     try:

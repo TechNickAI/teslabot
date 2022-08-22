@@ -1,7 +1,5 @@
-import arrow
-import click
+import arrow, click
 from loguru import logger
-
 from Tessie import Tessie
 from utils import send_sms
 

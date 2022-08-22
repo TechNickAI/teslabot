@@ -19,4 +19,4 @@ jobs:
         uses: py-actions/flake8@v2.2.0
         with:
           max-line-length: "120"
-          plugins: "flake8-bugbear flake8-debugger flake8-eradicate flake8-isort naming"
+          plugins: "flake8-bugbear flake8-debugger flake8-eradicate naming"

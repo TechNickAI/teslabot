@@ -1,7 +1,5 @@
 import json
-
 import arrow
-
 from autovent import autovent
 from utils import f2c
 

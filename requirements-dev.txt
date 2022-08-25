@@ -1,5 +1,6 @@
 -r requirements.txt
 -r requirements-test.txt
+better_exceptions
 black
 flake8
 flake8-bandit

@@ -11,4 +11,5 @@ flake8-isort
 isort
 iPython
 pep8-naming
+pip-tools
 pre-commit

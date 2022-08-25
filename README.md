@@ -28,17 +28,16 @@ autovent solves this by allowing you to set a threshold for venting
 ```text
 Usage: autovent.py [OPTIONS]
 
-  Automatically vent the windows to lower cabin temperature
-
 Options:
-  --vin TEXT           Tesla VIN number to auto vent  [required]
-  --tessie_token TEXT  API access token for Tessie (see tessie.com)
-                       [required]
-  --vent_temp INTEGER  The threshold for when to roll up/down the windows,
-                       degrees in fahrenheit
-  --notify_phone TEXT  Send a message to this phone number when the windows
-                       are moved
-  --help               Show this message and exit.
+  --vin TEXT                 Tesla VIN number to auto vent  [required]
+  --tessie-token TEXT        API access token for Tessie (see tessie.com)
+                             [required]
+  --vent-temp INTEGER RANGE  The threshold for when to roll up/down the
+                             windows, degrees in fahrenheit  [default: 70;
+                             0<=x<=135]
+  --notify-phone TEXT        Send a message to this phone number when the
+                             windows are moved
+  --help                     Show this message and exit.
 ```
 
 ### Off peak charging
@@ -51,16 +50,16 @@ Usage: peakoff.py [OPTIONS]
 
 Options:
   --vin TEXT                      Tesla VIN number to auto vent  [required]
-  --tessie_token TEXT             API access token for Tessie (see tessie.com)
+  --tessie-token TEXT             API access token for Tessie (see tessie.com)
                                   [required]
   --peak-start TEXT               When peak pricing starts, in military time.
                                   Ex: 16:00  [required]
   --peak-end TEXT                 When peak pricing ends, in military time.
                                   Ex: 21:00  [required]
-  --low_battery_threshold INTEGER
+  --low-battery-threshold INTEGER RANGE
                                   Don't pause charging if the battery is below
-                                  this threshold  [default: 35]
-  --notify_phone TEXT             Send a message to this phone number when the
+                                  this threshold  [default: 42; 0<=x<=100]
+  --notify-phone TEXT             Send a message to this phone number when the
                                   charging is stopped/started
   --help                          Show this message and exit.
 ```

@@ -1,5 +1,5 @@
-import arrow, requests
 from loguru import logger
+import arrow, requests
 
 
 class Tessie:

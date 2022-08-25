@@ -1,7 +1,7 @@
-import arrow, click
 from loguru import logger
 from Tessie import Tessie
 from utils import c2f, send_sms
+import arrow, click
 
 
 def autovent(vin, tessie_token, vent_temp, notify_phone):

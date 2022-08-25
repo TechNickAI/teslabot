@@ -1,7 +1,6 @@
-import json
-import arrow
 from autovent import autovent
 from utils import f2c
+import arrow, json
 
 
 def test_autovent(requests_mock):

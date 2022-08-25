@@ -1,7 +1,7 @@
-import arrow, click
 from loguru import logger
 from Tessie import Tessie
 from utils import send_sms
+import arrow, click
 
 DEFAULT_LOW_BATTERY_THRESHOLD = 42
 

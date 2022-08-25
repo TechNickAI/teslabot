@@ -1,6 +1,5 @@
-import json
-import arrow
 from peakoff import peakoff
+import arrow, json
 
 
 def test_peakoff_conditions(requests_mock):

@@ -15,6 +15,8 @@ repos:
       - id: debug-statements
       - id: requirements-txt-fixer
         args: [requirements.txt, requirements-dev.txt, requirements-test.txt, requirements.in]
+      - id: file-contents-sorter
+        args: [.gitignore]
 
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks

@@ -1,6 +1,6 @@
 from loguru import logger
 from Tessie import Tessie
-from utils import c2f, send_sms
+from utils import c2f, get_sun_position, send_sms
 import arrow, click
 
 
@@ -16,19 +16,23 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     car_name = state["display_name"]
     climate_state = state["climate_state"]
     vehicle_state = state["vehicle_state"]
+    drive_state = state["drive_state"]
     logger.trace(f"Climate state: {climate_state}")
     logger.trace(f"Vehicle state: {vehicle_state}")
+    logger.trace(f"Drive state: {drive_state}")
 
     inside_temp = c2f(climate_state["inside_temp"])
     outside_temp = c2f(climate_state["outside_temp"])
 
     ### Conditional checks
-    if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > tessie.localize_time(
-        arrow.get(state["drive_state"]["timestamp"])
-    ):
+    local_time = tessie.localize_time(arrow.get(drive_state["timestamp"]))
+    logger.info(f"Local time is {local_time}")
+    if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > local_time:
         logger.info("API data is stale, which means the car is either asleep or out of internet range.")
-        if int(tessie.localize_time(arrow.utcnow())) <= 6:
-            logger.info("Since it's before sunrise, just let the car sleep")
+        sun_position = get_sun_position(drive_state["latitude"], drive_state["longitude"], local_time)
+        logger.info(f"Sun position is {sun_position}")
+        if sun_position == "night":
+            logger.info("Since it's night time, just let the car sleep")
         else:
             logger.info("Waking the car up for the next run")
             tessie.wake_up()

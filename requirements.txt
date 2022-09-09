@@ -6,6 +6,8 @@
 #
 arrow==1.2.2
     # via -r requirements.in
+astral==2.2
+    # via -r requirements.in
 certifi==2022.6.15
     # via requests
 charset-normalizer==2.1.1
@@ -21,7 +23,9 @@ pyjwt==2.4.0
 python-dateutil==2.8.2
     # via arrow
 pytz==2022.2.1
-    # via twilio
+    # via
+    #   astral
+    #   twilio
 requests==2.28.1
     # via
     #   -r requirements.in

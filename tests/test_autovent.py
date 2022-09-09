@@ -8,11 +8,12 @@ def test_stale_data(requests_mock):
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
 
     # Stale data
-    mock_data["drive_state"]["timestamp"] = arrow.utcnow().shift(hours=-12).timestamp() * 1000
+    pacific_yesterday = arrow.utcnow().shift(days=-1).to("US/Pacific")
+    mock_data["drive_state"]["timestamp"] = pacific_yesterday.replace(hour=0).timestamp() * 1000  # midnight
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     assert autovent("dummy_vin", "dummy_tessie_token", 90, None) is None, "Should leave the car sleeping at night"
 
-    mock_data["drive_state"]["timestamp"] = arrow.utcnow().shift(hours=-5).timestamp() * 1000
+    mock_data["drive_state"]["timestamp"] = pacific_yesterday.replace(hour=12).timestamp() * 1000  # noon
     requests_mock.get("https://api.tessie.com/dummy_vin/status", text='{"status": "asleep"}')
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     requests_mock.get("https://api.tessie.com/dummy_vin/wake", text='{"result": true }')

@@ -40,7 +40,11 @@ def test_autovent(requests_mock):
     requests_mock.get("https://api.tessie.com/dummy_vin/status", text='{"status": "awake"}')
     requests_mock.get("https://api.tessie.com/dummy_vin/command/vent_windows", text='{"result": true }')
     assert autovent("dummy_vin", "dummy_tessie_token", 90, "+18005551212") == -1, "Windows should roll down"
+
+    # Windows should be left alone
     mock_data["vehicle_state"]["rd_window"] = 1
+    requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
+    assert autovent("dummy_vin", "dummy_tessie_token", 90, "+18005551212") == 0, "Windows should stay down"
 
     # Let's cool it down
     mock_data["climate_state"]["inside_temp"] = f2c(85)

@@ -5,18 +5,17 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
-      - id: check-executables-have-shebangs
       - id: check-added-large-files
         args: [--maxkb=500]
+      - id: check-executables-have-shebangs
       - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
       - id: check-symlinks
-      - id: check-json
       - id: check-toml
       - id: check-yaml
-      - id: check-shebang-scripts-are-executable
       - id: debug-statements
       - id: file-contents-sorter
-        files: .gitignore
+        files: \.gitignore
       - id: pretty-format-json
         args: [--autofix, --indent=4, --no-sort-keys]
       - id: requirements-txt-fixer

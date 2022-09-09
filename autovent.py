@@ -90,7 +90,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     help="The threshold for when to roll up/down the windows, degrees in fahrenheit",
 )
 @click.option("--notify-phone", help="Send a message to this phone number when the windows are moved", type=str)
-def autovent_command(vin, tessie_token, vent_temp, notify_phone):
+def autovent_command(vin, tessie_token, vent_temp, notify_phone):  # pragma: no cover
     autovent(vin, tessie_token, vent_temp, notify_phone)
 
 

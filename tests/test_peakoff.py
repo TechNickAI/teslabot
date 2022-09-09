@@ -25,6 +25,7 @@ def test_peakoff_toggling(requests_mock):
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
     mock_data["charge_state"]["charger_voltage"] = 100
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
+    requests_mock.post("https://api.twilio.com/2010-04-01/Accounts/ACXXX/Messages.json", text='{"sid": "SMXXX"}')
 
     assert (
         peakoff("dummy_vin", "dummy_tessie_token", "00:00", "00:00", None) == 0
@@ -45,8 +46,9 @@ def test_low_battery(requests_mock):
 
     mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
-    mock_data["charge_state"]["battery_level"] = 10
+    requests_mock.post("https://api.twilio.com/2010-04-01/Accounts/ACXXX/Messages.json", text='{"sid": "SMXXX"}')
 
+    mock_data["charge_state"]["battery_level"] = 10
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     assert (
         peakoff("dummy_vin", "dummy_tessie_token", "00:00", "23:59", None) == 0

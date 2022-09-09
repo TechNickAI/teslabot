@@ -14,9 +14,9 @@ def f2c(fahrenheit: float) -> int:
 
 
 def send_sms(phone: str, message: str):
-    account_sid = os.environ["TWILIO_ACCOUNT_SID"]
-    auth_token = os.environ["TWILIO_AUTH_TOKEN"]
-    twilio_phone = os.environ["TWILIO_PHONE"]
+    account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+    auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+    twilio_phone = os.environ.get("TWILIO_PHONE")
     assert account_sid, "TWILIO_ACCOUNT_SID env variable must be set"
     assert auth_token, "TWILIO_AUTH_TOKEN env variable must be set"
     assert twilio_phone, "TWILIO_PHONE env variable must be set"

@@ -99,7 +99,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
 @click.option(
     "--notify-phone", help="Send a message to this phone number when the charging is stopped/started", type=str
 )
-def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold):
+def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold):  # pragma: no cover
     peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold)
 
 

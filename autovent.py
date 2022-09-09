@@ -47,7 +47,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         return None
 
     ### Check the temperature and windows
-    msg = f"{car_name} cabin temperature is {inside_temp}° and outside temperature is {outside_temp}°"
+    msg = f"{car_name} cabin temp is {inside_temp}°, outside temp is {outside_temp}°, threshold is {vent_temp}°"
     logger.info(msg)
 
     if vehicle_state["rd_window"] != 0:
@@ -84,7 +84,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
 @click.option("--tessie-token", required=True, help="API access token for Tessie (see tessie.com)", type=str)
 @click.option(
     "--vent-temp",
-    default=70,
+    default=85,
     type=click.IntRange(0, 135),
     show_default=True,
     help="The threshold for when to roll up/down the windows, degrees in fahrenheit",

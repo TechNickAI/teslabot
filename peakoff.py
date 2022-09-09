@@ -16,26 +16,29 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     state = tessie.get_vehicle_state()
     car_name = state["display_name"]
     charge_state = state["charge_state"]
+    drive_state = state["drive_state"]
     logger.trace(f"Charge state: {charge_state}")
+    logger.trace(f"Drive state: {drive_state}")
 
     ### Conditional checks
+    msg = f"{car_name}🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
+    logger.info(msg)
+    car_time = tessie.localize_time(arrow.get(drive_state["timestamp"]))
+    logger.info(f"Car time is {car_time.format('HH:mm:ss')}")
+
     try:
-        if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > tessie.localize_time(
-            arrow.get(state["drive_state"]["timestamp"])
-        ):
-            raise ValueError("API data is stale. Car not online?")
+        if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > car_time:
+            raise ValueError("API data is stale. Car asleep or not online?")
 
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge cable is not plugged in")
         tessie.check_state("charge_state", "charging_state", lambda v: v != "Complete", "Charging is complete ✅")
         tessie.check_state("charge_state", "charger_voltage", lambda v: v < 240, "Charging at a super charger 🔋")
     except ValueError as e:
-        logger.info(f"Halting: {e}")
+        logger.info(f"🛑 Halting: {e}")
         return None
 
     ### Check the batteries and charging status
-    msg = f"{car_name}🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
-    logger.info(msg)
 
     local_time = tessie.localize_time(arrow.utcnow()).format("HH:mm")
     logger.info(f"Local time is {local_time}")

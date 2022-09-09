@@ -25,11 +25,11 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     outside_temp = c2f(climate_state["outside_temp"])
 
     ### Conditional checks
-    local_time = tessie.localize_time(arrow.get(drive_state["timestamp"]))
-    logger.info(f"Local time is {local_time}")
-    if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > local_time:
+    car_time = tessie.localize_time(arrow.get(drive_state["timestamp"]))
+    logger.info(f"Car time is {car_time.format('HH:mm:ss')}")
+    if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > car_time:
         logger.info("API data is stale, which means the car is either asleep or out of internet range.")
-        sun_position = get_sun_position(drive_state["latitude"], drive_state["longitude"], local_time)
+        sun_position = get_sun_position(drive_state["latitude"], drive_state["longitude"], car_time)
         logger.info(f"Sun position is {sun_position}")
         if sun_position == "night":
             logger.info("Since it's night time, just let the car sleep")
@@ -43,7 +43,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
-        logger.info(f"Halting: {e}")
+        logger.info(f"🛑 Halting: {e}")
         return None
 
     ### Check the temperature and windows

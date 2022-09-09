@@ -1,6 +1,6 @@
-*.swp
 *.pyc
-.vscode
+*.swp
 .DS_Store
 .env
+.vscode
 __pycache__

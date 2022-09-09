@@ -18,7 +18,7 @@ repos:
       - id: file-contents-sorter
         files: .gitignore
       - id: pretty-format-json
-        args: [--autofix, --indent=4]
+        args: [--autofix, --indent=4, --no-sort-keys]
       - id: requirements-txt-fixer
         args: [requirements.txt, requirements-dev.txt, requirements-test.txt, requirements.in]
       - id: sort-simple-yaml

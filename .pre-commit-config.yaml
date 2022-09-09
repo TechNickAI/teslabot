@@ -13,6 +13,9 @@ repos:
       - id: check-symlinks
       - id: check-toml
       - id: debug-statements
+      - id: requirements-txt-fixer
+        args: [requirements.txt, requirements-dev.txt, requirements-test.txt, requirements.in]
+
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.3.1

@@ -230,7 +230,7 @@
             "max_limit_mph": 90,
             "min_limit_mph": 50,
             "pin_code_set": false
-                },
+        },
         "summon_standby_mode_enabled": false,
         "timestamp": 1659887043879,
         "tpms_pressure_fl": null,

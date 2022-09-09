@@ -1,5 +1,5 @@
 -r requirements.txt
 coverage
-requests_mock
 pytest
 pytest-cov
+requests_mock

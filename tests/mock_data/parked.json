@@ -38,7 +38,7 @@
         "charge_port_door_open": false,
         "charge_port_latch": "Engaged",
         "charge_rate": 0,
-        "charge_to_max_range": true,
+        "charge_to_max_range": false,
         "charger_actual_current": 0,
         "charger_phases": null,
         "charger_pilot_current": 48,

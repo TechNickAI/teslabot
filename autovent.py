@@ -31,6 +31,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         logger.info("API data is stale, which means the car is either asleep or out of internet range.")
         sun_position = get_sun_position(drive_state["latitude"], drive_state["longitude"], car_time)
         logger.info(f"Sun position is {sun_position}")
+        sun_position = "day"  # Hack until we can get sun position properly
         if sun_position == "night":
             logger.info("Since it's night time, just let the car sleep")
             return None

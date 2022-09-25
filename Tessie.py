@@ -1,4 +1,5 @@
 from loguru import logger
+from timezonefinder import TimezoneFinder
 import arrow, requests
 
 
@@ -50,8 +51,10 @@ class Tessie:
             logger.success("Awake")
 
     def localize_time(self, time: arrow):
-        # For the supplied time, shift it by the UTC offset, for the current timezone of the vehicle
-        return time.shift(seconds=self.state["vehicle_config"]["utc_offset"])
+        # For the supplied time, shift from UTC via the lat/long
+        tf = TimezoneFinder()  # reuse
+        timezone = tf.timezone_at(lng=self.state["drive_state"]["longitude"], lat=self.state["drive_state"]["latitude"])
+        return time.to(timezone)
 
     def request(self, path, vin=None):
         base_url = "https://api.tessie.com"

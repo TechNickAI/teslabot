@@ -26,12 +26,11 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
 
     ### Conditional checks
     car_time = tessie.localize_time(arrow.get(drive_state["timestamp"]))
-    logger.info(f"Car time is {car_time.format('HH:mm:ss')}")
+    sun_position = get_sun_position(drive_state["latitude"], drive_state["longitude"], car_time)
+    logger.info(f"Car time is {car_time.format('HH:mm:ss')}, sun position is {sun_position}")
+
     if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > car_time:
         logger.info("API data is stale, which means the car is either asleep or out of internet range.")
-        sun_position = get_sun_position(drive_state["latitude"], drive_state["longitude"], car_time)
-        logger.info(f"Sun position is {sun_position}")
-        sun_position = "day"  # Hack until we can get sun position properly
         if sun_position == "night":
             logger.info("Since it's night time, just let the car sleep")
             return None

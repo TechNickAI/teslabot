@@ -17,7 +17,7 @@ def test_stale_data(requests_mock):
     requests_mock.get("https://api.tessie.com/dummy_vin/status", text='{"status": "asleep"}')
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     requests_mock.get("https://api.tessie.com/dummy_vin/wake", text='{"result": true }')
-    assert autovent("dummy_vin", "dummy_tessie_token", 90, None) is None, "Should wake up the car during the day"
+    assert autovent("dummy_vin", "dummy_tessie_token", 90, None) == 2, "Should wake up the car during the day"
 
 
 def test_autovent(requests_mock):

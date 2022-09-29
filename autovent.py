@@ -53,7 +53,12 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     msg = f"{car_name} cabin temp is {inside_temp}°, outside temp is {outside_temp}°, threshold is {vent_temp}°"
     logger.info(msg)
 
-    if vehicle_state["rd_window"] != 0:
+    if (
+        vehicle_state["fd_window"]
+        + vehicle_state["rd_window"]
+        + vehicle_state["fp_window"]
+        + vehicle_state["rp_window"]
+    ):
         logger.info("Windows are down")
         if inside_temp < vent_temp:
             tessie.wake_up()

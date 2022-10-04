@@ -64,7 +64,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
                 send_sms(notify_phone, msg)
             return 1
         else:
-            logger.info("Leaving windows as is")
+            logger.success("Leaving windows vented")
             return 0
 
     else:
@@ -78,7 +78,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
                 send_sms(notify_phone, msg)
             return -1
         else:
-            logger.info("Leaving windows as is")
+            logger.success("Leaving windows up")
             return 0
 
 

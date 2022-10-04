@@ -52,7 +52,7 @@ class Tessie:
 
     def get_car_time(self):
         # For the supplied time, shift from UTC via the lat/long
-        tf = TimezoneFinder()  # reuse
+        tf = TimezoneFinder()
         timezone = tf.timezone_at(lng=self.state["drive_state"]["longitude"], lat=self.state["drive_state"]["latitude"])
         return arrow.utcnow().to(timezone)
 

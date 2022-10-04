@@ -30,14 +30,14 @@ def send_sms(phone: str, message: str):
 def get_sun_position(latitude, longitude, time):
     # Calculate the sun position for the supplied latitude, longitude, and time
     city = LocationInfo("City", "State", "US", latitude, longitude)
-    s = sun(city.observer, date=time.date(), tzinfo=time.tzinfo)
-    if time < s["dawn"] or time > s["dusk"]:
+    astral = sun(city.observer, date=time.date(), tzinfo=time.tzinfo)
+    if time < astral["dawn"] or time > astral["dusk"]:
         return "night"
-    elif time > s["dawn"] and time < s["sunrise"]:
+    elif time > astral["dawn"] and time < astral["sunrise"]:
         return "sunrise"
-    elif time > s["sunrise"] and time < s["sunset"]:
+    elif time > astral["sunrise"] and time < astral["sunset"]:
         return "day"
-    elif time > s["sunset"] and time < s["dusk"]:
+    elif time > astral["sunset"] and time < astral["dusk"]:
         return "sunset"
     else:  # pragma: no cover
         # not sure how we'd get here, but just in case

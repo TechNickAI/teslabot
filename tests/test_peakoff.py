@@ -47,7 +47,7 @@ def test_peakoff_toggling(requests_mock):
         "https://api.tessie.com/dummy_vin/command/start_charging", text='{"result": false, "reason": "requested"}'
     )
     assert (
-        peakoff("dummy_vin", "dummy_tessie_token", "00:00", "00:00", None) is None
+        peakoff("dummy_vin", "dummy_tessie_token", "00:00", "00:00", None) == -2
     ), "Should gracefully fail if restart fails"
 
     requests_mock.get("https://api.tessie.com/dummy_vin/command/start_charging", text='{"result": true }')

@@ -74,11 +74,11 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             elif response["result"] is False and response["reason"] == "requested":
                 # This can happen if there was a voltage drop earlier and you can't restart it
                 logger.error("Charging restart already requested")
-                return None
+                return -2
 
             else:  # pragma: no cover
                 logger.error(f"Unrecognized response from Tessie API: {response}")
-                return None
+                return -2
 
         else:
             logger.info("Leaving charging stopped during peak")

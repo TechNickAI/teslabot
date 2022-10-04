@@ -16,13 +16,21 @@ def test_stale_data(requests_mock):
     car_time_day = car_time.replace(hour=12)
     with freeze_time(car_time_night.datetime):
         requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
-        assert autovent("dummy_vin", "dummy_tessie_token", 90, None) is None, "Should leave the car sleeping at night"
+        assert autovent("dummy_vin", "dummy_tessie_token", 90, None) == 11, "Should leave the car sleeping at night"
 
     with freeze_time(car_time_day.datetime):
+        mock_data["charge_state"]["battery_level"] = 10
+        requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
+        assert (
+            autovent("dummy_vin", "dummy_tessie_token", 90, None) == 12
+        ), "Should leave the car alone if battery is low"
+
+        # set the battery back, should wake it up now
+        mock_data["charge_state"]["battery_level"] = 42
         requests_mock.get("https://api.tessie.com/dummy_vin/status", text='{"status": "asleep"}')
         requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
         requests_mock.get("https://api.tessie.com/dummy_vin/wake", text='{"result": true }')
-        assert autovent("dummy_vin", "dummy_tessie_token", 90, None) == 2, "Should wake up the car during the day"
+        assert autovent("dummy_vin", "dummy_tessie_token", 90, None) == 13, "Should wake up the car during the day"
 
 
 def test_autovent(requests_mock):

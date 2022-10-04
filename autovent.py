@@ -33,14 +33,14 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         logger.info("API data is stale, which means the car is either asleep or out of internet range.")
         if sun_position == "night":
             logger.info("Since it's night time, just let the car sleep")
-            return None
+            return 11
         elif state["charge_state"]["battery_level"] < 25:
             logger.info("Don't wake the car up if it's low on battery")
-            return None
+            return 12
         else:
             logger.info("Waking the car up for the next run")
             tessie.wake_up()
-            return 2
+            return 13
 
     try:
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")

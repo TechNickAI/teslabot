@@ -17,15 +17,12 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     car_name = state["display_name"]
     charge_state = state["charge_state"]
     drive_state = state["drive_state"]
-    logger.trace(f"Charge state: {charge_state}")
-    logger.trace(f"Drive state: {drive_state}")
-
-    ### Conditional checks
     msg = f"{car_name}🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
     logger.info(msg)
     car_time = tessie.get_car_time()
     logger.info(f"Car time is {car_time.format('HH:mm:ss')}")
 
+    ### Conditional checks, all of these must pass to continue
     try:
         if arrow.get(drive_state["timestamp"]) < arrow.utcnow().shift(hours=-3):
             raise ValueError("API data is stale. Car asleep or not online?")
@@ -90,6 +87,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             return 0
 
 
+### Set up the command line interface
 @click.command()
 @click.option("--vin", required=True, help="Tesla VIN number to auto vent", type=str)
 @click.option("--tessie-token", required=True, help="API access token for Tessie (see tessie.com)", type=str)

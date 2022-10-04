@@ -17,18 +17,15 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     climate_state = state["climate_state"]
     vehicle_state = state["vehicle_state"]
     drive_state = state["drive_state"]
-    logger.trace(f"Climate state: {climate_state}")
-    logger.trace(f"Vehicle state: {vehicle_state}")
-    logger.trace(f"Drive state: {drive_state}")
-
     inside_temp = c2f(climate_state["inside_temp"])
     outside_temp = c2f(climate_state["outside_temp"])
-
-    ### Conditional checks
     car_time = tessie.get_car_time()
     sun_position = get_sun_position(drive_state["latitude"], drive_state["longitude"], car_time)
     logger.info(f"Car time is {car_time.format('HH:mm:ss')}, sun position is {sun_position}")
+    msg = f"{car_name} cabin temp is {inside_temp}°, outside temp is {outside_temp}°, threshold is {vent_temp}°"
+    logger.info(msg)
 
+    ### Handle if the data is stale, which can happen if the car is out of internet range or asleep
     if arrow.get(drive_state["timestamp"]) < arrow.utcnow().shift(hours=-3):
         logger.info("API data is stale, which means the car is either asleep or out of internet range.")
         if sun_position == "night":
@@ -42,6 +39,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             tessie.wake_up()
             return 13
 
+    ### Conditional checks, all of these must pass to continue
     try:
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
@@ -49,11 +47,8 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
         logger.info(f"🛑 Halting: {e}")
         return None
 
-    ### Check the temperature and windows
-    msg = f"{car_name} cabin temp is {inside_temp}°, outside temp is {outside_temp}°, threshold is {vent_temp}°"
-    logger.info(msg)
-
-    if (
+    ### Now check the temperature and windows, and vent/close if needed
+    if (  # if any of the windows are down
         vehicle_state["fd_window"]
         + vehicle_state["rd_window"]
         + vehicle_state["fp_window"]
@@ -87,6 +82,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
             return 0
 
 
+### Set up the command line interface
 @click.command()
 @click.option("--vin", required=True, help="Tesla VIN number to auto vent", type=str)
 @click.option("--tessie-token", required=True, help="API access token for Tessie (see tessie.com)", type=str)

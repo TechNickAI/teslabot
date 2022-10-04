@@ -23,7 +23,7 @@ class Tessie:
 
         state = self.request("state", self.vin)
         state_date = arrow.get(state["drive_state"]["timestamp"])
-        logger.success(f"Retrieved state for {state['display_name']} (#{state['vin']}) as of {state_date.humanize()}")
+        logger.info(f"Retrieved state for {state['display_name']} (#{state['vin']}) as of {state_date.humanize()}")
 
         self.state = state
         return state
@@ -44,7 +44,7 @@ class Tessie:
 
     def wake_up(self):
         sleep_status = self.get_sleep_status()
-        logger.info(f"Sleep status is {sleep_status}")
+        logger.debug(f"Sleep status is {sleep_status}")
         if sleep_status != "awake":
             logger.info("Sending wake up")
             self.request("wake", self.vin)

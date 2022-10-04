@@ -1,5 +1,6 @@
 -r requirements.txt
 coverage
+freezegun
 pytest
 pytest-cov
 requests_mock

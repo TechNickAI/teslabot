@@ -1,4 +1,5 @@
 from autovent import autovent
+from freezegun import freeze_time
 from utils import f2c
 import arrow, json
 
@@ -7,17 +8,21 @@ def test_stale_data(requests_mock):
 
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
 
-    # Stale data
-    pacific_yesterday = arrow.utcnow().shift(days=-1).to("US/Pacific")
-    mock_data["drive_state"]["timestamp"] = pacific_yesterday.replace(hour=0).timestamp() * 1000  # midnight
-    requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
-    assert autovent("dummy_vin", "dummy_tessie_token", 90, None) is None, "Should leave the car sleeping at night"
+    # Get car time
+    car_time = (
+        arrow.get(mock_data["drive_state"]["timestamp"]).shift(hours=15).to("US/Pacific")
+    )  # time zone should match lat/long
+    car_time_night = car_time.replace(hour=1)
+    car_time_day = car_time.replace(hour=12)
+    with freeze_time(car_time_night.datetime):
+        requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
+        assert autovent("dummy_vin", "dummy_tessie_token", 90, None) is None, "Should leave the car sleeping at night"
 
-    mock_data["drive_state"]["timestamp"] = pacific_yesterday.replace(hour=12).timestamp() * 1000  # noon
-    requests_mock.get("https://api.tessie.com/dummy_vin/status", text='{"status": "asleep"}')
-    requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
-    requests_mock.get("https://api.tessie.com/dummy_vin/wake", text='{"result": true }')
-    assert autovent("dummy_vin", "dummy_tessie_token", 90, None) == 2, "Should wake up the car during the day"
+    with freeze_time(car_time_day.datetime):
+        requests_mock.get("https://api.tessie.com/dummy_vin/status", text='{"status": "asleep"}')
+        requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
+        requests_mock.get("https://api.tessie.com/dummy_vin/wake", text='{"result": true }')
+        assert autovent("dummy_vin", "dummy_tessie_token", 90, None) == 2, "Should wake up the car during the day"
 
 
 def test_autovent(requests_mock):

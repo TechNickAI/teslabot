@@ -23,11 +23,11 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     ### Conditional checks
     msg = f"{car_name}🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
     logger.info(msg)
-    car_time = tessie.localize_time(arrow.get(drive_state["timestamp"]))
+    car_time = tessie.get_car_time()
     logger.info(f"Car time is {car_time.format('HH:mm:ss')}")
 
     try:
-        if tessie.localize_time(arrow.utcnow().shift(hours=-3)) > car_time:
+        if arrow.get(drive_state["timestamp"]) < arrow.utcnow().shift(hours=-3):
             raise ValueError("API data is stale. Car asleep or not online?")
 
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
@@ -41,7 +41,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
 
     ### Check the batteries and charging status
 
-    local_time = tessie.localize_time(arrow.utcnow()).format("HH:mm")
+    local_time = tessie.get_car_time().format("HH:mm")
     logger.info(f"Local time is {local_time}")
 
     if charge_state["charging_state"] == "Charging":
@@ -61,7 +61,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             return 0
 
     elif charge_state["charging_state"] == "Stopped":
-        if local_time > peak_end:
+        if local_time > peak_end or local_time < peak_start:
             logger.info("Off peak time, resuming charging")
             response = tessie.request("command/start_charging", vin)
             if response["result"]:

@@ -50,11 +50,11 @@ class Tessie:
             self.request("wake", self.vin)
             logger.success("Awake")
 
-    def localize_time(self, time: arrow):
+    def get_car_time(self):
         # For the supplied time, shift from UTC via the lat/long
         tf = TimezoneFinder()  # reuse
         timezone = tf.timezone_at(lng=self.state["drive_state"]["longitude"], lat=self.state["drive_state"]["latitude"])
-        return time.to(timezone)
+        return arrow.utcnow().to(timezone)
 
     def request(self, path, vin=None):
         base_url = "https://api.tessie.com"

@@ -61,6 +61,11 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             return 0
 
     elif charge_state["charging_state"] == "Stopped":
+        # Check to see if it is already charged enough
+        if charge_state["battery_level"] >= charge_state["charge_limit_soc"] - 1:
+            logger.info("Battery is already close to requested level, leave as is")
+            return 0
+
         if local_time > peak_end or local_time < peak_start:
             logger.info("Off peak time, resuming charging")
             response = tessie.request("command/start_charging", vin)

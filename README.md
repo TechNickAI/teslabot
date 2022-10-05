@@ -68,7 +68,7 @@ Options:
 
 ## Development Environment
 
-* Python 3.9+ w/ virtualenv
+* Python 3.10 w/ virtualenv
 * [GitHub actions](https://github.com/features/actions) for CI/CD
 * [Super Linter](https://github.com/marketplace/actions/super-linter) for linting, including:
     * [Black](https://black.readthedocs.io/en/stable/) for perfect python formatting

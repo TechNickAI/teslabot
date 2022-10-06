@@ -6,7 +6,7 @@ import arrow, click
 DEFAULT_LOW_BATTERY_THRESHOLD = 42
 
 
-def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_treshold=DEFAULT_LOW_BATTERY_THRESHOLD):
+def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_threshold=DEFAULT_LOW_BATTERY_THRESHOLD):
     """
 
     Automatically stop charging during peak electricity hours
@@ -40,8 +40,8 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     car_time_24 = tessie.get_car_time().format("HH:mm")
 
     if charge_state["charging_state"] == "Charging":
-        if charge_state["battery_level"] < low_battery_treshold:
-            logger.success(f"Charge level is below {low_battery_treshold}%, allowing charging to continue")
+        if charge_state["battery_level"] < low_battery_threshold:
+            logger.success(f"Charge level is below {low_battery_threshold}%, allowing charging to continue")
             return 0
         elif car_time_24 > peak_start and car_time_24 < peak_end:
             logger.warning("Charging during peak time!")

@@ -8,17 +8,16 @@ Automating functionality for Tesla, using the same API the app uses via [Tessie]
 [![GitHub Super-Linter](https://github.com/gorillamania/teslabot/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 [![codecov](https://codecov.io/gh/gorillamania/teslabot/branch/master/graph/badge.svg?token=MPHAFA1QX9)](https://codecov.io/gh/gorillamania/teslabot)
 
-
 Various automations can be performed based on time of day, location of the vehicle, and conditions of the car. Have an idea for a feature? [Submit a GitHub issue](https://github.com/gorillamania/teslabot/issues/new) to suggest a feature.
 
 Optional SMS notifications available via [Twilio](https://www.twilio.com/).
 
 <img width="524" alt="Screen Shot 2022-08-12 at 1 40 17 PM" src="https://user-images.githubusercontent.com/142708/184441792-82dbea01-bb19-418f-ae89-b6d843aa3489.png">
 
-
 ## Features
 
 ### Auto Venting
+
 It's hot out. Sun is streaming in. Interior temperatures can exceed 100°F, damaging the cars interior and making it uncomfortable when you get in. Tesla has a feature to cool down the cabin when it gets hot, but this uses up battery.
 
 Yes, you can open the app to vent, but it's not ideal to have to remember to do it every time you park. It's also nice to only vent the windows when it is hot, not all the time.
@@ -44,7 +43,6 @@ Options:
 
 Tesla's native off-peak scheduling sucks. It allows you to specify a "start time", but no end time, when in practicality you need to be able to specify a peak window, such as 4-9PM for PG&E in Northern California, and have the charging stop during this window.
 
-
 ```text
 Usage: peakoff.py [OPTIONS]
 
@@ -64,16 +62,14 @@ Options:
   --help                          Show this message and exit.
 ```
 
-
-
 ## Development Environment
 
 * Python 3.10 w/ virtualenv
 * [GitHub actions](https://github.com/features/actions) for CI/CD
 * [Super Linter](https://github.com/marketplace/actions/super-linter) for linting, including:
-    * [Black](https://black.readthedocs.io/en/stable/) for perfect python formatting
-    * [flake8](https://flake8.pycqa.org/en/latest/) for python linting
-    * [isort](https://pypi.org/project/isort/) for consistent imports
+  * [Black](https://black.readthedocs.io/en/stable/) for perfect python formatting
+  * [flake8](https://flake8.pycqa.org/en/latest/) for python linting
+  * [isort](https://pypi.org/project/isort/) for consistent imports
 * [pytest](https://docs.pytest.org/en/7.1.x/) for unit testing
 * [pre-commit](https://pre-commit.com/) to automate checks on commit
 

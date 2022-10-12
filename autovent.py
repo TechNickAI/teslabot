@@ -27,7 +27,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
     ### Handle if the data is stale, which can happen if the car is out of internet range or asleep
     if arrow.get(drive_state["timestamp"]) < arrow.utcnow().shift(hours=-3):
         logger.info("API data is stale, which means the car is either asleep or out of internet range.")
-        if sun_position == "night" and not tessie.are_windows_open():
+        if sun_position in ["night", "sunrise"] and not tessie.are_windows_open():
             logger.success("Since it's night time and the windows are closed, just let the car sleep")
             return 11
         elif state["charge_state"]["battery_level"] < 25:

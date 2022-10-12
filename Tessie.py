@@ -56,6 +56,17 @@ class Tessie:
         timezone = tf.timezone_at(lng=self.state["drive_state"]["longitude"], lat=self.state["drive_state"]["latitude"])
         return arrow.utcnow().to(timezone)
 
+    def are_windows_open(self):
+        vehicle_state = self.get_vehicle_state()["vehicle_state"]
+        return any(
+            [
+                vehicle_state["fd_window"],
+                vehicle_state["rd_window"],
+                vehicle_state["fp_window"],
+                vehicle_state["rp_window"],
+            ]
+        )
+
     def request(self, path, vin=None):
         base_url = "https://api.tessie.com"
 

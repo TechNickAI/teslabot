@@ -64,13 +64,13 @@ Options:
 
 ## Development Environment
 
-* Python 3.10 w/ virtualenv
+* Python 3.10
 * [GitHub actions](https://github.com/features/actions) for CI/CD
 * [Super Linter](https://github.com/marketplace/actions/super-linter) for linting, including:
   * [Black](https://black.readthedocs.io/en/stable/) for perfect python formatting
   * [flake8](https://flake8.pycqa.org/en/latest/) for python linting
   * [isort](https://pypi.org/project/isort/) for consistent imports
-* [pytest](https://docs.pytest.org/en/7.1.x/) for unit testing
+* [pytest](https://docs.pytest.org/) for unit testing
 * [pre-commit](https://pre-commit.com/) to automate checks on commit
 
 `pip install -r requirements.txt` for production, [requirements-test.txt](requirements-test.txt) for testing/CI/CD, and [requirements-dev.txt](requirements-dev.txt) for local development.

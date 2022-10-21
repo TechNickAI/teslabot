@@ -48,7 +48,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             response = tessie.request("command/stop_charging", vin)
             logger.debug(f"Response {response}")
             if notify_phone:
-                msg += f", charging paused during peak hours, will resume at {peak_end} ♻️"
+                msg += f", charging paused during peak hours, will resume after {peak_end} ♻️"
                 send_sms(notify_phone, msg)
             logger.success(msg)
             return -1

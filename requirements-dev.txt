@@ -9,6 +9,7 @@ flake8-debugger
 flake8-eradicate
 iPython
 isort
+pdbpp
 pep8-naming
 pip-tools
 pre-commit

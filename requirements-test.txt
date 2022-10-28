@@ -2,5 +2,6 @@
 coverage
 freezegun
 pytest
+pytest-clarity
 pytest-cov
 requests_mock

@@ -416,7 +416,9 @@ disable=raw-checker-failed,
         wrong-import-order,
         multiple-imports,
         unspecified-encoding,
-        consider-using-with
+        consider-using-with,
+        no-else-return,
+        chained-comparison
 
 
 # Enable the message, report, category or checker with the given id(s). You can

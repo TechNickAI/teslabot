@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name
 from loguru import logger
 from timezonefinder import TimezoneFinder
 import arrow, requests

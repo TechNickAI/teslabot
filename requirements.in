@@ -1,7 +1,6 @@
 arrow
 astral
 click
-geopy
 loguru
 requests
 timezonefinder

@@ -62,23 +62,6 @@ Options:
   --help                          Show this message and exit.
 ```
 
-### Auto sentry
-
-Sentry mode is good, but it wastes energy by keeping the car awake. If you don't need it at home, auto sentry can accept a home lat/long and if enable it when not at home, and disable it when away
-
-```
-Usage: autosentry.py [OPTIONS]
-
-Options:
-  --vin TEXT           Tesla VIN number to auto vent  [required]
-  --tessie-token TEXT  API access token for Tessie (see tessie.com)
-                       [required]
-  --home-lat FLOAT     [required]
-  --home-long FLOAT    [required]
-  --radius INTEGER     How many feet away from home to trigger sentry mode
-  --help               Show this message and exit.
-```
-
 ## Development Environment
 
 * Python 3.10

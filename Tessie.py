@@ -11,7 +11,7 @@ class Tessie:
     """
 
     # Internal state
-    tessie_token = state = vin = None
+    tessie_token = state = vin = session = None
 
     def __init__(self, tessie_token, vin=None):
         self.tessie_token = tessie_token
@@ -52,8 +52,9 @@ class Tessie:
 
     def get_car_time(self):
         # For the supplied time, shift from UTC via the lat/long
-        tf = TimezoneFinder()
-        timezone = tf.timezone_at(lng=self.state["drive_state"]["longitude"], lat=self.state["drive_state"]["latitude"])
+        timezone = TimezoneFinder().timezone_at(
+            lng=self.state["drive_state"]["longitude"], lat=self.state["drive_state"]["latitude"]
+        )
         return arrow.utcnow().to(timezone)
 
     def are_windows_open(self):

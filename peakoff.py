@@ -107,4 +107,4 @@ def peakoff_command(vin, tessie_token, peak_start, peak_end, notify_phone, low_b
 
 
 if __name__ == "__main__":  # pragma: no cover
-    peakoff_command()
+    peakoff_command()  # pylint: disable=no-value-for-parameter

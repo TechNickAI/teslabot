@@ -94,4 +94,4 @@ def autovent_command(vin, tessie_token, vent_temp, notify_phone):  # pragma: no 
 
 
 if __name__ == "__main__":  # pragma: no cover
-    autovent_command()
+    autovent_command()  # pylint: disable=no-value-for-parameter

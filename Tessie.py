@@ -68,6 +68,10 @@ class Tessie:
         )
 
     def request(self, path, vin=None):
+        # Set up a requests session, which enables keep alive and allows for retries
+        if self.session is None:
+            self.session = requests.Session()
+
         base_url = "https://api.tessie.com"
 
         if vin:
@@ -76,6 +80,6 @@ class Tessie:
         url = f"{base_url}/{path}"
         logger.trace(f"Requesting {url}")
 
-        response = requests.get(url, headers={"Authorization": f"Bearer {self.tessie_token}"})
+        response = self.session.get(url, headers={"Authorization": f"Bearer {self.tessie_token}"}, timeout=30)
         response.raise_for_status()
         return response.json()

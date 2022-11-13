@@ -5,7 +5,7 @@
 #    pip-compile --annotation-style=line
 #
 arrow==1.2.3              # via -r requirements.in
-astral==3.0               # via -r requirements.in
+astral==3.2               # via -r requirements.in
 certifi==2022.9.24        # via requests
 cffi==1.15.1              # via timezonefinder
 charset-normalizer==2.1.1  # via requests
@@ -17,11 +17,11 @@ numpy==1.23.4             # via timezonefinder
 pycparser==2.21           # via cffi
 pyjwt==2.6.0              # via twilio
 python-dateutil==2.8.2    # via arrow
-pytz==2022.5              # via twilio
+pytz==2022.6              # via twilio
 requests==2.28.1          # via -r requirements.in, twilio
 six==1.16.0               # via python-dateutil
-timezonefinder==6.1.5     # via -r requirements.in
-twilio==7.15.0            # via -r requirements.in
+timezonefinder==6.1.6     # via -r requirements.in
+twilio==7.15.2            # via -r requirements.in
 urllib3==1.26.12          # via requests
 
 # The following packages are considered to be unsafe in a requirements file:

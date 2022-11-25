@@ -18,7 +18,7 @@ Optional SMS notifications available via [Twilio](https://www.twilio.com/).
 
 ### Auto Venting
 
-It's hot out. Sun is streaming in. Interior temperatures can exceed 100°F, damaging the cars interior and making it uncomfortable when you get in. Tesla has a feature to cool down the cabin when it gets hot, but this uses up battery.
+It's hot out. Sun is streaming in. Interior temperatures can exceed 100°F, damaging the cars interior and making it uncomfortable when you get in. Tesla has a feature called Cabin Overheat Protection to cool down the cabin when it gets hot, but this uses up battery.
 
 Yes, you can open the app to vent, but it's not ideal to have to remember to do it every time you park. It's also nice to only vent the windows when it is hot, not all the time.
 

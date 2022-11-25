@@ -1,0 +1,24 @@
+---
+name: Deployment
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: production
+    # All other jobs with this tag must complete successfully for this job to run
+    concurrency: production
+    steps:
+      - name: Deploy via ssh
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          script: |
+            uptime
+            ~/update_teslabot.bash
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script_stop: true

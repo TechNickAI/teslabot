@@ -31,7 +31,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
         tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge cable is not plugged in")
         tessie.check_state("charge_state", "charging_state", lambda v: v != "Complete", "Charging is complete ✅")
         tessie.check_state("charge_state", "charger_voltage", lambda v: v < 240, "Charging at a super charger 🔋")
-        tessie.check_state("charge_state", "charge_to_max_range", lambda v: v is not True, "Charging to 100%")
+        tessie.check_state("charge_state", "charge_limit_soc", lambda v: v < 100, "User requested charging to 100%")
     except ValueError as e:
         logger.warning(f"🛑 Halting: {e}")
         return None

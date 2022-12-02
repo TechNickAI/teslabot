@@ -62,6 +62,7 @@ def test_low_battery(requests_mock):
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
     mock_data["charge_state"]["battery_level"] = 10
+    mock_data["charge_state"]["charge_limit_soc"] = 85
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     assert (
         peakoff("dummy_vin", "dummy_tessie_token", "00:00", "23:59", None) == 0

@@ -22,11 +22,12 @@ def test_peakoff_conditions(requests_mock):
 
 def test_peakoff_toggling(requests_mock):
 
-    mock_data = json.loads(open("tests/mock_data/supercharging.json").read())
+    mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
     # Simulate current data
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
+    mock_data["charge_state"]["battery_level"] = 50
+    mock_data["charge_state"]["charge_limit_soc"] = 80
 
-    mock_data["charge_state"]["charger_voltage"] = 100
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     requests_mock.post("https://api.twilio.com/2010-04-01/Accounts/ACXXX/Messages.json", text='{"sid": "SMXXX"}')
 

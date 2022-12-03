@@ -16,7 +16,6 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     state = tessie.get_vehicle_state()
     car_name = state["display_name"]
     charge_state = state["charge_state"]
-    drive_state = state["drive_state"]
     msg = f"{car_name}🔋Battery level is {charge_state['battery_level']}% and is {charge_state['charging_state']}"
     logger.info(msg)
     car_time = tessie.get_car_time()
@@ -24,10 +23,12 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
 
     ### Conditional checks, all of these must pass to continue
     try:
-        if arrow.get(drive_state["timestamp"]) < arrow.utcnow().shift(hours=-3):
-            logger.warning("API data is stale, which means the car is either asleep or out of internet range.")
-            return -3
-
+        tessie.check_state(
+            "drive_state",
+            "timestamp",
+            lambda v: arrow.get(v) > arrow.utcnow().shift(hours=-3),
+            "API data is stale, which means the car is either asleep or out of internet range",
+        )
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge cable is not plugged in")
         tessie.check_state("charge_state", "charging_state", lambda v: v != "Complete", "Charging is complete ✅")

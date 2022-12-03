@@ -5,25 +5,37 @@ import arrow, json
 def test_peakoff_conditions(requests_mock):
 
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
-    # Simulate current data
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     assert (
-        peakoff("dummy_vin", "dummy_tessie_token", "16:00", "21:00", None) is None
+        peakoff("dummy_vin", "dummy_tessie_token", "00:00", "23:59", None) is None
     ), "Should do nothing while not plugged in"
 
+
+def test_supercharging(requests_mock):
     mock_data = json.loads(open("tests/mock_data/supercharging.json").read())
+    mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
+
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
     assert (
-        peakoff("dummy_vin", "dummy_tessie_token", "16:00", "21:00", None) is None
+        peakoff("dummy_vin", "dummy_tessie_token", "00:00", "23:59", None) == 0
     ), "Should do nothing while supercharging"
+
+
+def test_chargepoint(requests_mock):
+    mock_data = json.loads(open("tests/mock_data/chargepoint_charging.json").read())
+    mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
+
+    requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
+    assert (
+        peakoff("dummy_vin", "dummy_tessie_token", "00:00", "23:59", None) == 0
+    ), "Should do nothing while at a ChargePoint"
 
 
 def test_peakoff_toggling(requests_mock):
 
     mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
-    # Simulate current data
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
     mock_data["charge_state"]["battery_level"] = 50
     mock_data["charge_state"]["charge_limit_soc"] = 80

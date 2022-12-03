@@ -25,12 +25,12 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     ### Conditional checks, all of these must pass to continue
     try:
         if arrow.get(drive_state["timestamp"]) < arrow.utcnow().shift(hours=-3):
-            raise ValueError("API data is stale. Car asleep or not online?")
+            logger.warning("API data is stale, which means the car is either asleep or out of internet range.")
+            return -3
 
         tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
         tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge cable is not plugged in")
         tessie.check_state("charge_state", "charging_state", lambda v: v != "Complete", "Charging is complete ✅")
-        tessie.check_state("charge_state", "fast_charger_type", lambda v: v != "Tesla", "Charging at a super charger 🔋")
         tessie.check_state("charge_state", "charge_limit_soc", lambda v: v < 100, "User requested charging to 100%")
     except ValueError as e:
         logger.warning(f"🛑 Halting: {e}")
@@ -40,10 +40,19 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
     car_time_24 = tessie.get_car_time().format("HH:mm")
 
     if charge_state["charging_state"] == "Charging":
+        if charge_state["fast_charger_type"] == "Tesla":
+            logger.success("Charging at a super charger 🔋")
+            return 0
+
+        if charge_state["fast_charger_type"] == "<invalid>":
+            logger.success("Charging at a ChargePoint (or similar) 🔋")
+            return 0
+
         if charge_state["battery_level"] < low_battery_threshold:
             logger.success(f"Charge level is below {low_battery_threshold}%, allowing charging to continue")
             return 0
-        elif car_time_24 > peak_start and car_time_24 < peak_end:
+
+        if car_time_24 > peak_start and car_time_24 < peak_end:
             logger.warning("Charging during peak time!")
             response = tessie.request("command/stop_charging", vin)
             logger.debug(f"Response {response}")

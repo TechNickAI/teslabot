@@ -40,7 +40,7 @@ six==1.16.0
     # via python-dateutil
 timezonefinder==6.1.7
     # via -r requirements.in
-twilio==7.15.3
+twilio==7.15.4
     # via -r requirements.in
 urllib3==1.26.12
     # via requests

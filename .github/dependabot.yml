@@ -4,7 +4,15 @@
 
 version: 2
 updates:
+  # Update python requirements
   - package-ecosystem: "pip"
     directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+  # Update GitHub actions in workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    # Check for updates to GitHub Actions every weekday
     schedule:
       interval: "daily"

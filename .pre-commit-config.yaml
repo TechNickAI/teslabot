@@ -53,9 +53,18 @@ repos:
         args: [--line-length=120]
 
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 5.0.4
     hooks:
       - id: flake8
+        additional_dependencies:
+          [
+            flake8-bandit,
+            flake8-bugbear,
+            flake8-debugger,
+            flake8-eradicate,
+            flake8-string-format,
+            pep8-naming,
+          ]
 
   - repo: https://github.com/PyCQA/isort
     rev: 5.10.1

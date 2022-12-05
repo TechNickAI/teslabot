@@ -7,6 +7,7 @@ flake8-bandit
 flake8-bugbear
 flake8-debugger
 flake8-eradicate
+flake8-string-format
 iPython
 isort
 pdbpp

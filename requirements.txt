@@ -8,7 +8,7 @@ arrow==1.2.3
     # via -r requirements.in
 astral==3.2
     # via -r requirements.in
-certifi==2022.9.24
+certifi==2022.12.7
     # via requests
 cffi==1.15.1
     # via timezonefinder

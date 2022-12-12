@@ -13,7 +13,7 @@ jobs:
     concurrency: production
     steps:
       - name: Deploy via ssh
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/ssh-action@v0.1.6
         with:
           script: |
             uptime

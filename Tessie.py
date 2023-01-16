@@ -37,7 +37,7 @@ class Tessie:
         if func(data):
             return True
         else:
-            logger.debug(f"{key}:{sub_key} did not pass test with value '{data}'")
+            logger.debug(f"{key}:{sub_key} did not pass test with value: {data}")
             raise ValueError(message)
 
     def get_sleep_status(self):

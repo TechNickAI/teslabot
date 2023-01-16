@@ -6,19 +6,32 @@ on: [push, pull_request]
 concurrency: production # Make it so this job must complete for deployment to move forward
 
 jobs:
-  build:
+  pre-commit:
+    name: Pre-commit (linting)
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10"]
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.0
+
+  pytest-in-venv:
+    name: Python tests (in venv)
+    # Does it make sense to run this through docker instead?
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.10
           cache: "pip"
+
       - name: Install dependencies
         run: |
           pip install -r requirements-test.txt
@@ -29,3 +42,22 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+
+  deploy:
+    if: github.ref == 'refs/heads/main' # only run deploy on main
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [pre-commit, pytest-in-venv]
+
+    steps:
+      - name: Deploy via ssh
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          script: |
+            uptime
+            ~/update_teslabot.bash
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script_stop: true

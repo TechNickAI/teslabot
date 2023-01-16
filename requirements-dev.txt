@@ -14,3 +14,4 @@ pdbpp
 pep8-naming
 pip-tools
 pre-commit
+pytest-sugar

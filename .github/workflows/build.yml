@@ -20,16 +20,15 @@ jobs:
 
   pytest-in-venv:
     name: Python tests (in venv)
-    # Does it make sense to run this through docker instead?
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10.9
+          python-version: 3.11.1
           cache: "pip"
 
       - name: Install dependencies

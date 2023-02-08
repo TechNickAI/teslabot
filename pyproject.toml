@@ -1,10 +1,10 @@
 [tool.black]
-line-length = 120
-target-version = ['py310']
-include = '\.pyi?$'
 exclude = '''
 /(
   | \.git
   | \__pycache__
 )/
 '''
+include = '\.pyi?$'
+line-length = 120
+target-version = ['py311']

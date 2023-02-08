@@ -3,7 +3,6 @@ import arrow, json
 
 
 def test_peakoff_conditions(requests_mock):
-
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
@@ -34,7 +33,6 @@ def test_chargepoint(requests_mock):
 
 
 def test_peakoff_toggling(requests_mock):
-
     mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
     mock_data["charge_state"]["battery_level"] = 50
@@ -70,7 +68,6 @@ def test_peakoff_toggling(requests_mock):
 
 
 def test_low_battery(requests_mock):
-
     mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
@@ -83,7 +80,6 @@ def test_low_battery(requests_mock):
 
 
 def test_already_full(requests_mock):
-
     mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 

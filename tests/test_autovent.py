@@ -5,7 +5,6 @@ import arrow, json
 
 
 def test_stale_data(requests_mock):
-
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
 
     # Get car time
@@ -34,7 +33,6 @@ def test_stale_data(requests_mock):
 
 
 def test_autovent(requests_mock):
-
     mock_data = json.loads(open("tests/mock_data/parked.json").read())
     # Simulate current data
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000

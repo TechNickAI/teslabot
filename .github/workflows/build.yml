@@ -43,7 +43,7 @@ jobs:
         uses: codecov/codecov-action@v3
 
   deploy:
-    if: github.ref == 'refs/heads/main' # only run deploy on main
+    if: github.ref == 'refs/heads/master' # only run deploy on master
     name: Deploy to production
     runs-on: ubuntu-latest
     environment: production
@@ -53,9 +53,7 @@ jobs:
       - name: Deploy via ssh
         uses: appleboy/ssh-action@v0.1.7
         with:
-          script: |
-            uptime
-            ~/update_teslabot.bash
+          script: ~/update_teslabot.bash
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}

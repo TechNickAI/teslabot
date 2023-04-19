@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Deploy via ssh
-        uses: appleboy/ssh-action@v0.1.9
+        uses: appleboy/ssh-action@v0.1.10
         with:
           script: ~/update_teslabot.bash
           host: ${{ secrets.DEPLOY_HOST }}

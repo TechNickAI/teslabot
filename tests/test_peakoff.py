@@ -1,9 +1,10 @@
+from pathlib import Path
 from peakoff import peakoff
 import arrow, json
 
 
 def test_peakoff_conditions(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/parked.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/parked.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
@@ -13,7 +14,7 @@ def test_peakoff_conditions(requests_mock):
 
 
 def test_supercharging(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/supercharging.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/supercharging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
@@ -23,7 +24,7 @@ def test_supercharging(requests_mock):
 
 
 def test_chargepoint(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/chargepoint_charging.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/chargepoint_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
     requests_mock.get("https://api.tessie.com/dummy_vin/state", text=json.dumps(mock_data))
@@ -33,7 +34,7 @@ def test_chargepoint(requests_mock):
 
 
 def test_peakoff_toggling(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
     mock_data["charge_state"]["battery_level"] = 50
     mock_data["charge_state"]["charge_limit_soc"] = 80
@@ -68,7 +69,7 @@ def test_peakoff_toggling(requests_mock):
 
 
 def test_low_battery(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
     mock_data["charge_state"]["battery_level"] = 10
@@ -80,7 +81,7 @@ def test_low_battery(requests_mock):
 
 
 def test_already_full(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/residential_charging.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/residential_charging.json").read())
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 
     mock_data["charge_state"]["battery_level"] = 85

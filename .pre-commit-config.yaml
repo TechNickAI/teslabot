@@ -7,9 +7,7 @@ repos:
     hooks:
       - id: check-added-large-files
         args: [--maxkb=500]
-      - id: check-executables-have-shebangs
       - id: check-merge-conflict
-      - id: check-shebang-scripts-are-executable
       - id: check-symlinks
       - id: check-toml
       - id: check-yaml
@@ -40,31 +38,11 @@ repos:
     hooks:
       - id: fix-smartquotes
 
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-      - id: pyupgrade
-        args: [--py311-plus]
-
   - repo: https://github.com/psf/black
     rev: 23.1.0
     hooks:
       - id: black
         args: [--line-length=120]
-
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4 # Note we can't use 6 yet, because the dependencies don't support it
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          [
-            flake8-bandit,
-            flake8-bugbear,
-            flake8-debugger,
-            flake8-eradicate,
-            flake8-string-format,
-            pep8-naming,
-          ]
 
   - repo: https://github.com/PyCQA/isort
     rev: 5.12.0
@@ -76,3 +54,9 @@ repos:
     rev: v2.2.2
     hooks:
       - id: codespell
+
+  # Ruff replaces flake8 and pylint and more
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.262
+    hooks:
+      - id: ruff

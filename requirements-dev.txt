@@ -2,16 +2,10 @@
 -r requirements-test.txt
 better_exceptions
 black
-flake8<6 # 6 doesn't work with the plugins yet
-flake8-bandit
-flake8-bugbear
-flake8-debugger
-flake8-eradicate
-flake8-string-format
 iPython
 isort
 pdbpp
-pep8-naming
 pip-tools
 pre-commit
 pytest-sugar
+ruff

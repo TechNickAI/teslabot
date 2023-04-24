@@ -94,6 +94,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
         else:
             logger.success("Leaving charging stopped during peak")
             return 0
+    return None
 
 
 ### Set up the command line interface

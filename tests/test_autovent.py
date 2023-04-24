@@ -1,11 +1,12 @@
 from autovent import autovent
 from freezegun import freeze_time
+from pathlib import Path
 from utils import f2c
 import arrow, json
 
 
 def test_stale_data(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/parked.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/parked.json").read())
 
     # Get car time
     car_time = (
@@ -33,7 +34,7 @@ def test_stale_data(requests_mock):
 
 
 def test_autovent(requests_mock):
-    mock_data = json.loads(open("tests/mock_data/parked.json").read())
+    mock_data = json.loads(Path.open("tests/mock_data/parked.json").read())
     # Simulate current data
     mock_data["drive_state"]["timestamp"] = arrow.utcnow().timestamp() * 1000
 

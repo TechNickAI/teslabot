@@ -8,3 +8,65 @@ exclude = '''
 include = '\.pyi?$'
 line-length = 120
 target-version = ['py311']
+
+[tool.ruff]
+extend-ignore = [
+  "DTZ003",
+  "DTZ007",
+  "E401",    # multiple imports on one line
+  "N817",    # D for decimal
+  "PLR0911", # Don't complain about too many return statements
+  "PLR0912", # Don't compplain about too many branches
+  "PLR0913", # don't complain about too many arguments
+  "PLR0915", # Don't complain about too many statements
+  "PLR2004", # Don't force every magic value to be a constant
+  "PLW0120", # else without a break is fine (I use return with for-else)
+  "RET505",  # Allow for return values to be set outside of if/else blocks
+  "RET506",  # Allow for return values to be set after raising an exception
+  "RET507",  # Allow for return values to be set after continue
+  "S101",    # assert
+  "S105",    # possible hardcoded password
+  "S308",    # Trust us with mark_safe
+  "S311",    # Trust us with random
+  "S324",    # Trust us with hashlib
+  "SIM108",  # Don't force ternary operators
+  "TRY003",  # long messages in exceptions are okk
+]
+# https://beta.ruff.rs/docs/rules/#ruff-specific-rules-ruf
+select = [
+  # Note, don't use isort through ruff, it's not as configurable as the standalone tool
+  "A", # builtins
+  #"ARG", # unused arguments
+  "B",   # bugbear
+  "DJ",  # django
+  "DTZ", # datetimez
+  "E",   # pycodestyle
+  "EXE", # executable settings
+  "F",   # pyflakes
+  "INP", # implicit namespace packages
+  "ISC", # string concatenation
+  "N",   # pep8 naming
+  "NPY", # numpy
+  "PD",  # pandas checking
+  "PGH", # explicit noqa
+  "PIE", # flake8 pie
+  "PLC", # pylint convention
+  "PLE", # pylint errors
+  "PLR", # pylint refactor
+  "PLW", # pylint warnings
+  #"PT",  # pytest style
+  "PTH", # Use path library
+  "RET", # return statements
+  "RUF", # ruff
+  "S",   # flake8-bandit
+  "SIM", # flake8 simplify
+  "T10", # debug statements
+  "T20", # print statements
+  "TRY", # try/except
+  "UP",  # pyupgrade
+  "W",   # pycodestyle warnings
+  "YTT", # flake8 2020
+]
+#extend-exclude = ["*/migrations/*"]
+line-length = 120
+target-version = "py311"

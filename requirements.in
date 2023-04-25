@@ -3,5 +3,7 @@ astral
 click
 loguru
 requests
-timezonefinder
+# Version 6.2 is killed by OS when trying to install in production (presumably using a lot of memory)
+# 6.1.10 works fine
+timezonefinder<6.2
 twilio

@@ -35,7 +35,6 @@ jobs:
           # Typing - meh
           VALIDATE_PYTHON_MYPY: false
           # we do flake8 with pre-commit so we can configure addons
-          VALIDATE_PYTHON_FLAKE8: false          
+          VALIDATE_PYTHON_FLAKE8: false
           # Don't run JSCPD - it's never useful, it's very verbose, and it's slow
           VALIDATE_JSCPD: false
-

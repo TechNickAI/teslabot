@@ -1,16 +1,19 @@
-name: AICodeBot Code Review
+name: AICodeBot
 
 on: [push]
 
 jobs:
-    review:
-        runs-on: ubuntu-latest
-        steps:
-        - name: Checkout Repo
-        - uses: actions/checkout@v3
+  review:
+    name: AICodeBot Code Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
 
-        - name: AICodeBot Code Review
-        - uses: gorillamania/AICodeBot-action@main
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: AICodeBot Code Review
+        uses: gorillamania/AICodeBot-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}

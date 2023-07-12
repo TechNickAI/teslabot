@@ -9,15 +9,24 @@ on: [push]
 #  issues: write
 #  contents: write
 # Temporary grant all for testing
-permissions: write-all
+
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
 
 jobs:
   review:
     name: AICodeBot Code Review
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    env:
-      LOG_LEVEL: DEBUG
 
     steps:
       - name: Checkout Repo

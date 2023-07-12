@@ -2,6 +2,13 @@ name: AICodeBot
 
 on: [push]
 
+# Permissions for the GitHub token.
+# This is so the bot can comment on the commit or pull request with the results of the code review.
+permissions:
+  pull-requests: write
+  issues: write
+  contents: write
+
 jobs:
   review:
     name: AICodeBot Code Review

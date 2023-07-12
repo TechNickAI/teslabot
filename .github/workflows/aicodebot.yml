@@ -7,6 +7,8 @@ jobs:
     name: AICodeBot Code Review
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      LOG_LEVEL: debug
 
     steps:
       - name: Checkout Repo

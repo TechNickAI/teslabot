@@ -4,10 +4,12 @@ on: [push]
 
 # Permissions for the GitHub token.
 # This is so the bot can comment on the commit or pull request with the results of the code review.
-permissions:
-  pull-requests: write
-  issues: write
-  contents: write
+#permissions:
+#  pull-requests: write
+#  issues: write
+#  contents: write
+# Temporary grant all for testing
+permissions: write-all
 
 jobs:
   review:

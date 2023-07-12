@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      LOG_LEVEL: debug
+      LOG_LEVEL: DEBUG
 
     steps:
       - name: Checkout Repo

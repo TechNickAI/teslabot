@@ -41,7 +41,7 @@ def autovent(vin, tessie_token, vent_temp, notify_phone):
 
     ### Conditional checks, all of these must pass to continue
     try:
-        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
+        tessie.check_state("drive_state", "speed", lambda v: v is None or v == 0, "Car is driving 🛞")
         tessie.check_state("vehicle_state", "is_user_present", lambda v: not v, "Someone is in the car 🙆")
     except ValueError as e:
         logger.warning(f"🛑 Halting: {e}")

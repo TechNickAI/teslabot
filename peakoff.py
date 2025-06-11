@@ -29,7 +29,7 @@ def peakoff(vin, tessie_token, peak_start, peak_end, notify_phone, low_battery_t
             lambda v: arrow.get(v) > arrow.utcnow().shift(hours=-3),
             "API data is stale, which means the car is either asleep or out of internet range",
         )
-        tessie.check_state("drive_state", "speed", lambda v: v is None, "Car is driving 🛞")
+        tessie.check_state("drive_state", "speed", lambda v: v is None or v == 0, "Car is driving 🛞")
         tessie.check_state("charge_state", "charge_port_door_open", lambda v: v, "Charge cable is not plugged in")
         tessie.check_state("charge_state", "charging_state", lambda v: v != "Complete", "Charging is complete ✅")
         tessie.check_state("charge_state", "charge_limit_soc", lambda v: v < 100, "User requested charging to 100%")
